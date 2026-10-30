@@ -355,7 +355,7 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
           <h2 className="font-display text-xl font-bold">Choose Package</h2>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {products.map((p) => {
             const isSelected = selected === p.id;
             return (
@@ -363,14 +363,14 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
                 type="button"
                 key={p.id}
                 onClick={() => setSelected(p.id)}
-                className={`relative flex items-center gap-3 rounded-2xl border-2 p-2.5 sm:p-3 text-left transition-all duration-200 active:scale-[0.98] ${
+                className={`relative flex items-center gap-2 rounded-xl border-2 p-2 text-left transition-all duration-200 active:scale-[0.98] ${
                   isSelected
                     ? "border-[#b5f01a] bg-[#1b2713] shadow-lg shadow-[#b5f01a]/10"
                     : "border-[#2a3328] bg-[#141a14] hover:border-[#b5f01a]/50"
                 }`}
               >
                 {p.badge && (
-                  <div className="absolute -top-2 right-3">
+                  <div className="absolute -top-2 right-2 scale-90">
                     {p.badge === "Hot" && <span className="badge-hot">Hot</span>}
                     {p.badge === "Best Value" && <span className="badge-best">Best</span>}
                     {p.badge === "Pass" && <span className="badge-pass">Pass</span>}
@@ -380,20 +380,20 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
                   </div>
                 )}
 
-                <div className="flex h-14 w-14 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-xl bg-white/5">
+                <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-lg bg-white/5">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/games/diamond.png"
                     alt=""
-                    className="h-9 w-9 sm:h-10 sm:w-10 object-contain"
+                    className="h-6 w-6 sm:h-8 sm:w-8 object-contain"
                   />
                 </div>
 
                 <div className="min-w-0">
-                  <div className="font-display text-xl sm:text-2xl font-bold leading-tight text-[#b5f01a]">
+                  <div className="font-display text-base sm:text-lg font-bold leading-tight text-[#b5f01a]">
                     {format(p.priceUsd)}
                   </div>
-                  <div className="truncate text-sm sm:text-base font-bold leading-tight text-fox-text">
+                  <div className="truncate text-xs sm:text-sm font-bold leading-tight text-fox-text">
                     {p.amount > 0
                       ? `${p.amount.toLocaleString()} ${game.currencyName}`
                       : p.name}

@@ -1,0 +1,220 @@
+diff --git a/app/games/[slug]/page.tsx b/app/games/[slug]/page.tsx
+--- a/app/games/[slug]/page.tsx	2026-10-30 09:22:51.488009910 +0000
++++ b/app/games/[slug]/page.tsx	2026-10-30 09:24:36.991376965 +0000
+@@ -4,7 +4,7 @@
+ import TopUpForm from "@/components/TopUpForm";
+ import Link from "next/link";
+ import { notFound } from "next/navigation";
+-import { ArrowLeft, Zap } from "lucide-react";
++import { ArrowLeft, Zap, ShieldCheck } from "lucide-react";
+ 
+ export const dynamic = "force-dynamic";
+ 
+@@ -26,57 +26,52 @@
+       <Header />
+ 
+       {/* Game banner */}
+-      <section className="relative overflow-hidden border-b border-fox-border">
++      <section className="mx-auto max-w-3xl px-4 pt-4 sm:px-6">
++        <Link
++          href="/#games"
++          className="mb-3 inline-flex items-center gap-2 text-sm text-fox-muted hover:text-fox-primary transition-colors"
++        >
++          <ArrowLeft className="h-4 w-4" strokeWidth={2} />
++          All games
++        </Link>
++
+         <div
+-          className="absolute inset-0 opacity-30"
++          className="aspect-[2/1] w-full overflow-hidden rounded-3xl bg-fox-card"
+           style={{
+-            backgroundImage: game.bannerUrl ? `url(${game.bannerUrl})` : undefined,
++            backgroundImage: `url(${game.bannerUrl || game.imageUrl})`,
+             backgroundSize: "cover",
+-            backgroundPosition: "center",
++            backgroundPosition: "center 25%",
+           }}
+         />
+-        <div className="absolute inset-0 bg-gradient-to-t from-fox-bg via-fox-bg/90 to-fox-bg/70" />
+ 
+-        <div className="relative mx-auto max-w-6xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
+-          <Link
+-            href="/#games"
+-            className="inline-flex items-center gap-2 text-sm text-fox-muted hover:text-fox-primary transition-colors mb-4 sm:mb-6"
+-          >
+-            <ArrowLeft className="h-4 w-4" strokeWidth={2} />
+-            All games
+-          </Link>
+-
+-          <div className="flex items-center gap-4 sm:gap-6">
+-            <div
+-              className="h-20 w-20 sm:h-28 sm:w-28 rounded-2xl border-2 border-fox-border bg-fox-card shadow-xl shrink-0 overflow-hidden"
+-              style={{
+-                backgroundImage: `url(${game.imageUrl})`,
+-                backgroundSize: "cover",
+-                backgroundPosition: "center",
+-              }}
+-            />
+-            <div>
+-              <p className="text-[10px] sm:text-xs uppercase tracking-widest text-fox-muted mb-1">
+-                {game.publisher}
+-              </p>
+-              <h1 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight mb-1 sm:mb-2">
+-                {game.name}
+-              </h1>
+-              <div className="flex items-center gap-3">
+-                <p className="text-fox-accent text-xs sm:text-sm">
+-                  Top up {game.currencyName}
+-                </p>
+-                <span className="inline-flex items-center gap-1 rounded-full border border-green-400/30 bg-green-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-green-300">
+-                  <Zap className="h-2.5 w-2.5" strokeWidth={3} />
+-                  Instant delivery
+-                </span>
+-              </div>
++        <div className="card mt-4 flex items-center gap-4 p-4">
++          <div
++            className="h-20 w-20 shrink-0 overflow-hidden rounded-2xl border-2 border-fox-border bg-fox-card"
++            style={{
++              backgroundImage: `url(${game.imageUrl})`,
++              backgroundSize: "cover",
++              backgroundPosition: "center",
++            }}
++          />
++          <div className="min-w-0">
++            <h1 className="font-display text-2xl sm:text-3xl font-bold leading-tight">
++              {game.name}
++            </h1>
++            <div className="mt-2 flex flex-wrap gap-2">
++              <span className="inline-flex items-center gap-1.5 rounded-xl bg-green-500/10 px-3 py-1.5 text-xs sm:text-sm text-green-200">
++                <ShieldCheck className="h-4 w-4" strokeWidth={2} />
++                Secure top-up
++              </span>
++              <span className="inline-flex items-center gap-1.5 rounded-xl bg-green-500/10 px-3 py-1.5 text-xs sm:text-sm text-green-200">
++                <Zap className="h-4 w-4" strokeWidth={2} />
++                Instant delivery
++              </span>
+             </div>
+           </div>
+         </div>
+       </section>
+ 
+-      <main className="mx-auto max-w-6xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
++      <main className="mx-auto max-w-6xl px-4 py-6 sm:py-10 sm:px-6 lg:px-8">
+         <TopUpForm
+           game={{
+             id: game.id,
+diff --git a/components/TopUpForm.tsx b/components/TopUpForm.tsx
+--- a/components/TopUpForm.tsx	2026-10-30 09:22:51.490773185 +0000
++++ b/components/TopUpForm.tsx	2026-10-30 09:24:36.991235561 +0000
+@@ -3,7 +3,7 @@
+ import { useState, useEffect, useRef, useCallback } from "react";
+ import { isValidUid, isValidServerId, formatUsd } from "@/lib/utils";
+ import { useCurrency } from "@/lib/currency";
+-import { QrCode, ArrowRight, Lock, Check, Smartphone, Search, UserRoundCheck, AlertCircle, Tag, Loader2 } from "lucide-react";
++import { QrCode, ArrowRight, Lock, Check, Smartphone, Search, UserRoundCheck, AlertCircle, Tag, Loader2, User, HelpCircle } from "lucide-react";
+ 
+ // Games that support automatic nickname lookup via /api/lookup-uid
+ const LOOKUP_SLUGS = new Set(["mobile-legends", "free-fire", "genshin-impact", "honkai-star-rail"]);
+@@ -42,6 +42,7 @@
+   const [error, setError] = useState<string | null>(null);
+ 
+   // Promo code state
++  const [showHelp, setShowHelp] = useState(false);
+   const [promoInput, setPromoInput] = useState("");
+   const [promoApplied, setPromoApplied] = useState<{
+     code: string;
+@@ -293,26 +294,41 @@
+ 
+       {/* Step 2: UID */}
+       <div className="fade-up" style={{ animationDelay: "80ms" }}>
+-        <div className="flex items-center gap-3 mb-4">
+-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-fox-primary to-fox-accent font-display font-bold text-black shadow-lg shadow-fox-primary/40">
+-            2
++        <div className="card p-5 sm:p-6 space-y-4">
++          <div className="flex items-center gap-3">
++            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#d9e56f] text-black">
++              <User className="h-5 w-5" strokeWidth={2.5} />
++            </div>
++            <h2 className="flex-1 font-display text-lg sm:text-xl font-bold uppercase tracking-wide">
++              Enter Your Information
++            </h2>
++            <button
++              type="button"
++              onClick={() => setShowHelp((v) => !v)}
++              aria-label="Help"
++              className="flex h-10 w-10 items-center justify-center rounded-full border border-[#d9e56f]/40 bg-[#d9e56f]/10 text-[#d9e56f]"
++            >
++              <HelpCircle className="h-5 w-5" strokeWidth={2} />
++            </button>
+           </div>
+-          <h2 className="font-display text-xl font-bold">Enter Account Info</h2>
+-        </div>
+ 
+-        <div className="card p-5 sm:p-6 space-y-4">
+-          <div className={useZoneField ? "grid grid-cols-[1fr_120px] sm:grid-cols-[1fr_140px] gap-3" : ""}>
++          {showHelp && (
++            <p className="rounded-xl bg-black/30 px-4 py-3 text-sm text-fox-muted">
++              Open the game and tap your profile to find your Game ID
++              {useZoneField ? " and Server ID (the number in brackets)" : ""}.
++            </p>
++          )}
++
++          <div className="space-y-3">
+             <div>
+-              <label className="label">
+-                {useZoneField ? "User ID" : game.uidLabel}
+-              </label>
+               <input
+                 type="text"
+                 inputMode="numeric"
++                aria-label={useZoneField ? "Game ID" : game.uidLabel}
+                 value={uid}
+                 onChange={(e) => setUid(e.target.value)}
+-                placeholder={useZoneField ? "12345678" : (game.uidExample || "Enter your player ID")}
+-                className="input font-mono text-lg py-3.5"
++                placeholder={useZoneField ? "Enter Game ID" : `Enter ${game.uidLabel}`}
++                className="w-full rounded-2xl border border-white/5 bg-black/40 px-5 py-4 text-lg text-fox-text placeholder:text-fox-muted focus:outline-none focus:ring-2 focus:ring-fox-primary/30"
+                 required
+               />
+               {!uid && game.uidExample && !useZoneField && (
+@@ -327,28 +343,26 @@
+               )}
+             </div>
+             {useZoneField && (
+-              <div>
+-                <label className="label">Zone ID</label>
+-                <input
+-                  type="text"
+-                  inputMode="numeric"
+-                  value={serverId}
+-                  onChange={(e) => setServerId(e.target.value)}
+-                  placeholder="1234"
+-                  className="input font-mono text-lg py-3.5"
+-                  required
+-                />
+-              </div>
++              <input
++                type="text"
++                inputMode="numeric"
++                aria-label="Server ID"
++                value={serverId}
++                onChange={(e) => setServerId(e.target.value)}
++                placeholder="Enter Server ID"
++                className="w-full rounded-2xl border border-white/5 bg-black/40 px-5 py-4 text-lg text-fox-text placeholder:text-fox-muted focus:outline-none focus:ring-2 focus:ring-fox-primary/30"
++                required
++              />
+             )}
+           </div>
+ 
+           {game.requiresServer && !useZoneField && (
+             <div>
+-              <label className="label">Server</label>
+               <select
+                 value={serverId}
+                 onChange={(e) => setServerId(e.target.value)}
+-                className="input"
++                aria-label="Server"
++                className="w-full rounded-2xl border border-white/5 bg-black/40 px-5 py-4 text-lg text-fox-text focus:outline-none focus:ring-2 focus:ring-fox-primary/30"
+                 required
+               >
+                 {game.servers.map((s) => (

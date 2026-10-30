@@ -1,0 +1,15 @@
+diff --git a/lib/payment.ts b/lib/payment.ts
+--- a/lib/payment.ts	2026-10-30 05:32:16.595202203 +0000
++++ b/lib/payment.ts	2026-10-30 06:08:29.307144690 +0000
+@@ -36,9 +36,10 @@
+     terminalLabel: "ONLINE",
+     expirationTimestamp: Date.now() + 10 * 60 * 1000,
+   };
++  // SDK signature: IndividualInfo(accountId, merchantName, merchantCity, optionalData)
++  // Currency + amount must live inside optionalData.
+   const individualInfo = new IndividualInfo(
+     accountId,
+-    khqrData.currency.usd,
+     merchantName,
+     merchantCity,
+     optionalData

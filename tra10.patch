@@ -1,0 +1,12 @@
+diff --git a/components/TopUpForm.tsx b/components/TopUpForm.tsx
+--- a/components/TopUpForm.tsx	2026-10-30 09:28:25.468752351 +0000
++++ b/components/TopUpForm.tsx	2026-10-30 09:31:16.528409043 +0000
+@@ -635,7 +635,7 @@
+       </div>{/* end grid */}
+ 
+       {/* Mobile: sticky bottom summary */}
+-      <div className="lg:hidden card-glow p-5 sticky bottom-3 mt-8 border border-fox-primary/30 shadow-2xl shadow-fox-primary/10 backdrop-blur-md">
++      <div className="lg:hidden card-glow p-5 mt-8 border border-fox-primary/30">
+         {selectedProduct && (
+           <div className="flex justify-between items-center mb-4">
+             <div>

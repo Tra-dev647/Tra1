@@ -5,7 +5,33 @@
  * Every function has a 5 s timeout and catches all errors → returns null.
  */
 
+import { verifyMobileLegendsAccount } from "@/lib/khmer-topup";
+
 // ---------- helpers ----------
+
+// Khmer Topup response shape can vary; look for a nickname in common places.
+function pickName(payload: unknown): string | null {
+  if (!payload || typeof payload !== "object") return null;
+  const keys = ["nickname", "username", "user_name", "player_name", "playerName", "name", "ign"];
+  const queue: unknown[] = [payload];
+  for (let depth = 0; depth < 3 && queue.length; depth++) {
+    const next: unknown[] = [];
+    for (const item of queue) {
+      if (!item || typeof item !== "object") continue;
+      const obj = item as Record<string, unknown>;
+      for (const k of keys) {
+        const v = obj[k];
+        if (typeof v === "string" && v.trim()) return v.trim();
+      }
+      for (const k of ["data", "result", "account", "player", "user"]) {
+        if (obj[k]) next.push(obj[k]);
+      }
+    }
+    queue.length = 0;
+    queue.push(...next);
+  }
+  return null;
+}
 
 interface IsanResponse {
   success?: boolean;
@@ -38,6 +64,16 @@ export async function lookupMobileLegends(
   uid: string,
   zone: string,
 ): Promise<string | null> {
+  // 1) Khmer Topup reseller check (uses KHMER_TOPUP_API_KEY on the server)
+  try {
+    const data = await verifyMobileLegendsAccount(uid, zone);
+    const name = pickName(data);
+    if (name) return name;
+    console.warn("[uidLookup] Khmer Topup check returned no name, keys:", Object.keys((data as object) ?? {}));
+  } catch (err) {
+    console.warn("[uidLookup] Khmer Topup check failed:", err instanceof Error ? err.message : err);
+  }
+  // 2) Fallback: community API
   return fetchIsan(
     `https://api.isan.eu.org/nickname/ml/${encodeURIComponent(uid)}/${encodeURIComponent(zone)}`,
   );

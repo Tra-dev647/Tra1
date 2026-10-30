@@ -1,0 +1,137 @@
+diff --git a/app/games/[slug]/page.tsx b/app/games/[slug]/page.tsx
+index 228f0e1..dcc2382 100644
+--- a/app/games/[slug]/page.tsx
++++ b/app/games/[slug]/page.tsx
+@@ -36,7 +36,7 @@ export default async function GamePage({ params }: { params: Promise<{ slug: str
+         </Link>
+ 
+         <div
+-          className="aspect-[2/1] w-full overflow-hidden rounded-3xl bg-fox-card"
++          className="aspect-[5/2] w-full overflow-hidden rounded-2xl bg-fox-card"
+           style={{
+             backgroundImage: `url(${game.bannerUrl || game.imageUrl})`,
+             backgroundSize: "cover",
+@@ -44,9 +44,9 @@ export default async function GamePage({ params }: { params: Promise<{ slug: str
+           }}
+         />
+ 
+-        <div className="card mt-4 flex items-center gap-4 p-4">
++        <div className="card mt-3 flex items-center gap-3 p-3">
+           <div
+-            className="h-20 w-20 shrink-0 overflow-hidden rounded-2xl border-2 border-fox-border bg-fox-card"
++            className="h-14 w-14 shrink-0 overflow-hidden rounded-xl border-2 border-fox-border bg-fox-card"
+             style={{
+               backgroundImage: `url(${game.imageUrl})`,
+               backgroundSize: "cover",
+@@ -54,16 +54,16 @@ export default async function GamePage({ params }: { params: Promise<{ slug: str
+             }}
+           />
+           <div className="min-w-0">
+-            <h1 className="font-display text-2xl sm:text-3xl font-bold leading-tight">
++            <h1 className="font-display text-lg sm:text-2xl font-bold leading-tight">
+               {game.name}
+             </h1>
+-            <div className="mt-2 flex flex-wrap gap-2">
+-              <span className="inline-flex items-center gap-1.5 rounded-xl bg-green-500/10 px-3 py-1.5 text-xs sm:text-sm text-green-200">
+-                <ShieldCheck className="h-4 w-4" strokeWidth={2} />
++            <div className="mt-1.5 flex flex-wrap gap-1.5">
++              <span className="inline-flex items-center gap-1.5 rounded-lg bg-green-500/10 px-2 py-1 text-xs text-green-200">
++                <ShieldCheck className="h-3.5 w-3.5" strokeWidth={2} />
+                 Secure top-up
+               </span>
+-              <span className="inline-flex items-center gap-1.5 rounded-xl bg-green-500/10 px-3 py-1.5 text-xs sm:text-sm text-green-200">
+-                <Zap className="h-4 w-4" strokeWidth={2} />
++              <span className="inline-flex items-center gap-1.5 rounded-lg bg-green-500/10 px-2 py-1 text-xs text-green-200">
++                <Zap className="h-3.5 w-3.5" strokeWidth={2} />
+                 Instant delivery
+               </span>
+             </div>
+diff --git a/components/TopUpForm.tsx b/components/TopUpForm.tsx
+index 8c4e7fc..6d75e4c 100644
+--- a/components/TopUpForm.tsx
++++ b/components/TopUpForm.tsx
+@@ -217,24 +217,24 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
+     <form onSubmit={handleSubmit}>
+       <div className="lg:grid lg:grid-cols-[1fr_340px] lg:gap-8">
+         {/* Left column: steps */}
+-        <div className="space-y-8">
++        <div className="space-y-5">
+       {/* Step 2: UID */}
+       <div className="fade-up" style={{ animationDelay: "80ms" }}>
+-        <div className="card border-white/5 bg-gradient-to-br from-[#272c30] to-[#222d28] p-5 sm:p-6 space-y-4">
+-          <div className="flex items-center gap-3">
+-            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#d9e56f] text-black">
+-              <User className="h-5 w-5" strokeWidth={2.5} />
++        <div className="card border-white/5 bg-gradient-to-br from-[#272c30] to-[#222d28] p-4 sm:p-5 space-y-3">
++          <div className="flex items-center gap-2.5">
++            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#d9e56f] text-black">
++              <User className="h-4 w-4" strokeWidth={2.5} />
+             </div>
+-            <h2 className="flex-1 font-display text-lg sm:text-xl font-bold uppercase tracking-wide">
++            <h2 className="flex-1 font-display text-base sm:text-lg font-bold uppercase tracking-wide">
+               Enter Your Information
+             </h2>
+             <button
+               type="button"
+               onClick={() => setShowHelp((v) => !v)}
+               aria-label="Help"
+-              className="flex h-10 w-10 items-center justify-center rounded-full border border-[#d9e56f]/40 bg-[#d9e56f]/10 text-[#d9e56f]"
++              className="flex h-8 w-8 items-center justify-center rounded-full border border-[#d9e56f]/40 bg-[#d9e56f]/10 text-[#d9e56f]"
+             >
+-              <HelpCircle className="h-5 w-5" strokeWidth={2} />
++              <HelpCircle className="h-4 w-4" strokeWidth={2} />
+             </button>
+           </div>
+ 
+@@ -245,7 +245,7 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
+             </p>
+           )}
+ 
+-          <div className="space-y-3">
++          <div className="space-y-2">
+             <div>
+               <input
+                 type="text"
+@@ -254,7 +254,7 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
+                 value={uid}
+                 onChange={(e) => setUid(e.target.value)}
+                 placeholder={useZoneField ? "Enter Game ID" : `Enter ${game.uidLabel}`}
+-                className="w-full rounded-2xl border border-white/5 bg-black/40 px-5 py-4 text-lg text-fox-text placeholder:text-fox-muted focus:outline-none focus:ring-2 focus:ring-fox-primary/30"
++                className="w-full rounded-xl border border-white/5 bg-black/40 px-4 py-2.5 text-base text-fox-text placeholder:text-fox-muted focus:outline-none focus:ring-2 focus:ring-fox-primary/30"
+                 required
+               />
+               {!uid && game.uidExample && !useZoneField && (
+@@ -276,7 +276,7 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
+                 value={serverId}
+                 onChange={(e) => setServerId(e.target.value)}
+                 placeholder="Enter Server ID"
+-                className="w-full rounded-2xl border border-white/5 bg-black/40 px-5 py-4 text-lg text-fox-text placeholder:text-fox-muted focus:outline-none focus:ring-2 focus:ring-fox-primary/30"
++                className="w-full rounded-xl border border-white/5 bg-black/40 px-4 py-2.5 text-base text-fox-text placeholder:text-fox-muted focus:outline-none focus:ring-2 focus:ring-fox-primary/30"
+                 required
+               />
+             )}
+@@ -288,7 +288,7 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
+                 value={serverId}
+                 onChange={(e) => setServerId(e.target.value)}
+                 aria-label="Server"
+-                className="w-full rounded-2xl border border-white/5 bg-black/40 px-5 py-4 text-lg text-fox-text focus:outline-none focus:ring-2 focus:ring-fox-primary/30"
++                className="w-full rounded-xl border border-white/5 bg-black/40 px-4 py-2.5 text-base text-fox-text focus:outline-none focus:ring-2 focus:ring-fox-primary/30"
+                 required
+               >
+                 {game.servers.map((s) => (
+@@ -303,12 +303,12 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
+               type="button"
+               onClick={doLookup}
+               disabled={!canCheckId || nicknameStatus === "checking"}
+-              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#d9e56f] px-5 py-3.5 text-base font-bold text-black transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
++              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#d9e56f] px-4 py-2.5 text-sm font-bold text-black transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
+             >
+               {nicknameStatus === "checking" ? (
+-                <Loader2 className="h-5 w-5 animate-spin" strokeWidth={2.5} />
++                <Loader2 className="h-4 w-4 animate-spin" strokeWidth={2.5} />
+               ) : (
+-                <Search className="h-5 w-5" strokeWidth={2.5} />
++                <Search className="h-4 w-4" strokeWidth={2.5} />
+               )}
+               Check ID
+             </button>

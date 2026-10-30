@@ -36,7 +36,7 @@ export default async function GamePage({ params }: { params: Promise<{ slug: str
         </Link>
 
         <div
-          className="aspect-[2/1] w-full overflow-hidden rounded-3xl bg-fox-card"
+          className="aspect-[5/2] w-full overflow-hidden rounded-2xl bg-fox-card"
           style={{
             backgroundImage: `url(${game.bannerUrl || game.imageUrl})`,
             backgroundSize: "cover",
@@ -44,9 +44,9 @@ export default async function GamePage({ params }: { params: Promise<{ slug: str
           }}
         />
 
-        <div className="card mt-4 flex items-center gap-4 p-4">
+        <div className="card mt-3 flex items-center gap-3 p-3">
           <div
-            className="h-20 w-20 shrink-0 overflow-hidden rounded-2xl border-2 border-fox-border bg-fox-card"
+            className="h-14 w-14 shrink-0 overflow-hidden rounded-xl border-2 border-fox-border bg-fox-card"
             style={{
               backgroundImage: `url(${game.imageUrl})`,
               backgroundSize: "cover",
@@ -54,16 +54,16 @@ export default async function GamePage({ params }: { params: Promise<{ slug: str
             }}
           />
           <div className="min-w-0">
-            <h1 className="font-display text-2xl sm:text-3xl font-bold leading-tight">
+            <h1 className="font-display text-lg sm:text-2xl font-bold leading-tight">
               {game.name}
             </h1>
-            <div className="mt-2 flex flex-wrap gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-xl bg-green-500/10 px-3 py-1.5 text-xs sm:text-sm text-green-200">
-                <ShieldCheck className="h-4 w-4" strokeWidth={2} />
+            <div className="mt-1.5 flex flex-wrap gap-1.5">
+              <span className="inline-flex items-center gap-1.5 rounded-lg bg-green-500/10 px-2 py-1 text-xs text-green-200">
+                <ShieldCheck className="h-3.5 w-3.5" strokeWidth={2} />
                 Secure top-up
               </span>
-              <span className="inline-flex items-center gap-1.5 rounded-xl bg-green-500/10 px-3 py-1.5 text-xs sm:text-sm text-green-200">
-                <Zap className="h-4 w-4" strokeWidth={2} />
+              <span className="inline-flex items-center gap-1.5 rounded-lg bg-green-500/10 px-2 py-1 text-xs text-green-200">
+                <Zap className="h-3.5 w-3.5" strokeWidth={2} />
                 Instant delivery
               </span>
             </div>

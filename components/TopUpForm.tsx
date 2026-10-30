@@ -217,24 +217,24 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
     <form onSubmit={handleSubmit}>
       <div className="lg:grid lg:grid-cols-[1fr_340px] lg:gap-8">
         {/* Left column: steps */}
-        <div className="space-y-8">
+        <div className="space-y-5">
       {/* Step 2: UID */}
       <div className="fade-up" style={{ animationDelay: "80ms" }}>
-        <div className="card border-white/5 bg-gradient-to-br from-[#272c30] to-[#222d28] p-5 sm:p-6 space-y-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#d9e56f] text-black">
-              <User className="h-5 w-5" strokeWidth={2.5} />
+        <div className="card border-white/5 bg-gradient-to-br from-[#272c30] to-[#222d28] p-4 sm:p-5 space-y-3">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#d9e56f] text-black">
+              <User className="h-4 w-4" strokeWidth={2.5} />
             </div>
-            <h2 className="flex-1 font-display text-lg sm:text-xl font-bold uppercase tracking-wide">
+            <h2 className="flex-1 font-display text-base sm:text-lg font-bold uppercase tracking-wide">
               Enter Your Information
             </h2>
             <button
               type="button"
               onClick={() => setShowHelp((v) => !v)}
               aria-label="Help"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-[#d9e56f]/40 bg-[#d9e56f]/10 text-[#d9e56f]"
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-[#d9e56f]/40 bg-[#d9e56f]/10 text-[#d9e56f]"
             >
-              <HelpCircle className="h-5 w-5" strokeWidth={2} />
+              <HelpCircle className="h-4 w-4" strokeWidth={2} />
             </button>
           </div>
 
@@ -245,7 +245,7 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
             </p>
           )}
 
-          <div className="space-y-3">
+          <div className="space-y-2">
             <div>
               <input
                 type="text"
@@ -254,7 +254,7 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
                 value={uid}
                 onChange={(e) => setUid(e.target.value)}
                 placeholder={useZoneField ? "Enter Game ID" : `Enter ${game.uidLabel}`}
-                className="w-full rounded-2xl border border-white/5 bg-black/40 px-5 py-4 text-lg text-fox-text placeholder:text-fox-muted focus:outline-none focus:ring-2 focus:ring-fox-primary/30"
+                className="w-full rounded-xl border border-white/5 bg-black/40 px-4 py-2.5 text-base text-fox-text placeholder:text-fox-muted focus:outline-none focus:ring-2 focus:ring-fox-primary/30"
                 required
               />
               {!uid && game.uidExample && !useZoneField && (
@@ -276,7 +276,7 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
                 value={serverId}
                 onChange={(e) => setServerId(e.target.value)}
                 placeholder="Enter Server ID"
-                className="w-full rounded-2xl border border-white/5 bg-black/40 px-5 py-4 text-lg text-fox-text placeholder:text-fox-muted focus:outline-none focus:ring-2 focus:ring-fox-primary/30"
+                className="w-full rounded-xl border border-white/5 bg-black/40 px-4 py-2.5 text-base text-fox-text placeholder:text-fox-muted focus:outline-none focus:ring-2 focus:ring-fox-primary/30"
                 required
               />
             )}
@@ -288,7 +288,7 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
                 value={serverId}
                 onChange={(e) => setServerId(e.target.value)}
                 aria-label="Server"
-                className="w-full rounded-2xl border border-white/5 bg-black/40 px-5 py-4 text-lg text-fox-text focus:outline-none focus:ring-2 focus:ring-fox-primary/30"
+                className="w-full rounded-xl border border-white/5 bg-black/40 px-4 py-2.5 text-base text-fox-text focus:outline-none focus:ring-2 focus:ring-fox-primary/30"
                 required
               >
                 {game.servers.map((s) => (
@@ -303,12 +303,12 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
               type="button"
               onClick={doLookup}
               disabled={!canCheckId || nicknameStatus === "checking"}
-              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#d9e56f] px-5 py-3.5 text-base font-bold text-black transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#d9e56f] px-4 py-2.5 text-sm font-bold text-black transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
             >
               {nicknameStatus === "checking" ? (
-                <Loader2 className="h-5 w-5 animate-spin" strokeWidth={2.5} />
+                <Loader2 className="h-4 w-4 animate-spin" strokeWidth={2.5} />
               ) : (
-                <Search className="h-5 w-5" strokeWidth={2.5} />
+                <Search className="h-4 w-4" strokeWidth={2.5} />
               )}
               Check ID
             </button>

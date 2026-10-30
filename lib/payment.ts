@@ -36,9 +36,10 @@ export function generateBakongPayment(args: InitiatePaymentArgs): PaymentInitRes
     terminalLabel: "ONLINE",
     expirationTimestamp: Date.now() + 10 * 60 * 1000,
   };
+  // SDK signature: IndividualInfo(accountId, merchantName, merchantCity, optionalData)
+  // Currency + amount must live inside optionalData.
   const individualInfo = new IndividualInfo(
     accountId,
-    khqrData.currency.usd,
     merchantName,
     merchantCity,
     optionalData

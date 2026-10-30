@@ -42,14 +42,3 @@ Order creation now generates a fixed-amount USD KHQR on the server. The Bakong t
 
 ## Vercel
 Set the same variables in Vercel Project → Settings → Environment Variables for Production, Preview and Development. Keep `PAYMENT_SIMULATION_MODE=false`. Run Prisma schema setup against Neon from a trusted local environment, then redeploy.
-
-
-## Khmer Topup live catalogue (TRATOPUP)
-
-1. Set `KHMER_TOPUP_API_URL=https://khmer-topup.com/api/v1` and `KHMER_TOPUP_API_KEY` in Vercel Environment Variables. Keep the key server-side; never use a `NEXT_PUBLIC_` variable for it.
-2. Deploy the project, then run `npx prisma db push` (or the project's database schema deployment step) so `Product.providerPackageId` and `Product.providerCostUsd` exist in Neon.
-3. Sign in to the admin dashboard, then send an authenticated `POST` request to `/api/admin/reseller/sync`. This imports the live `mobile-legends` packages and exact provider package IDs. Old unmatched Mobile Legends demo products are deactivated.
-4. Set each retail `priceUsd` above its `providerCostUsd` in Admin → Products. Sync preserves existing retail prices and refreshes provider costs.
-5. Test with a small-value order. The server verifies the MLBB User ID + Zone ID before creating a Bakong QR. After Bakong payment is confirmed, the server submits the exact provider `package_id` using the TRATOPUP order number as an idempotency reference. Checkout verification polls Khmer Topup until `completed` or `refunded`.
-
-API endpoints used: `GET /me`, `GET /games`, `GET /check`, `POST /orders`, and `GET /orders/{order_code}`. API calls run only on the server. A Khmer Topup `unknown` account-check result is not treated as an invalid ID; the provider may still accept or automatically refund the order.

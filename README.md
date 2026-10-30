@@ -17,6 +17,3 @@ npm run dev
 ```
 
 Never commit `.env.local` or share API tokens/passwords. Use fresh rotated credentials in Vercel Environment Variables.
-
-
-Khmer Topup live reseller integration setup: see `INTEGRATION-README-KM.md` and run the authenticated `POST /api/admin/reseller/sync` endpoint after applying the Prisma schema to Neon.

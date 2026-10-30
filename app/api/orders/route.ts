@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 
 import { generateOrderNumber, isValidUid } from "@/lib/utils";
 import { generateBakongPayment } from "@/lib/payment";
+import { verifyMobileLegendsAccount } from "@/lib/khmer-topup";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -77,8 +78,20 @@ export async function POST(req: NextRequest) {
     if (!product || !product.active || product.gameId !== game.id) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
+    if (product.providerCostUsd != null && product.priceUsd + 0.0001 < product.providerCostUsd) {
+      return NextResponse.json({ error: "This package price is below the current Khmer Topup reseller cost. Please contact support." }, { status: 409 });
+    }
     if (game.requiresServer && !data.serverId) {
       return NextResponse.json({ error: "Server is required for this game" }, { status: 400 });
+    }
+    // Validate the Mobile Legends account against Khmer Topup before creating a payable order.
+    if (game.slug === "mobile-legends") {
+      if (!data.serverId) return NextResponse.json({ error: "Zone ID is required for Mobile Legends" }, { status: 400 });
+      const account = await verifyMobileLegendsAccount(data.playerUid, data.serverId);
+      if (account.result === "invalid" || account.result === "incomplete") {
+        return NextResponse.json({ error: account.message || "Khmer Topup could not verify this Mobile Legends ID and Zone ID" }, { status: 400 });
+      }
+      if (account.nickname && !data.playerNickname) data.playerNickname = account.nickname;
     }
 
     // Create the order

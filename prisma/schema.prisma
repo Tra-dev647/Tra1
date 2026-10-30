@@ -43,6 +43,8 @@ model Product {
   gameId      String
   game        Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
   name        String   // e.g. "86 Diamonds"
+  providerPackageId Int? // Exact package_id from Khmer Topup live catalogue
+  providerCostUsd Float? // Live reseller cost from Khmer Topup
   amount      Int      // 86
   bonus       Int      @default(0) // bonus diamonds
   priceUsd    Float    // price in USD

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { checkBakongPayment } from "@/lib/payment";
-import { placeMobileLegendsTopup } from "@/lib/khmer-topup";
+import { getKhmerTopupOrder, placeMobileLegendsTopup } from "@/lib/khmer-topup";
 import { checkRateLimit } from "@/lib/rateLimit";
 
 export const dynamic = "force-dynamic";
@@ -24,6 +24,24 @@ export async function POST(req: NextRequest) {
       include: { game: true, product: true },
     });
     if (!order) return NextResponse.json({ error: "Order not found" }, { status: 404 });
+    if (order.status === "PROCESSING" && order.deliveryNote) {
+      const code = order.deliveryNote.match(/KT-[A-Z0-9]+/i)?.[0];
+      if (code) {
+        try {
+          const remote = await getKhmerTopupOrder(code);
+          if (remote.status === "completed") {
+            await prisma.order.update({ where: { id: order.id }, data: { status: "DELIVERED", deliveredAt: new Date() } });
+            return NextResponse.json({ paid: true, status: "DELIVERED", resellerOrder: code });
+          }
+          if (remote.status === "refunded") {
+            await prisma.order.update({ where: { id: order.id }, data: { status: "FAILED", failureReason: "Khmer Topup refunded the provider order" } });
+            return NextResponse.json({ paid: true, status: "FAILED", resellerOrder: code });
+          }
+        } catch (statusError) {
+          console.warn("Khmer Topup status check failed:", statusError instanceof Error ? statusError.message : statusError);
+        }
+      }
+    }
     if (order.status !== "PENDING") {
       return NextResponse.json({ paid: ["PAID", "PROCESSING", "DELIVERED"].includes(order.status), status: order.status });
     }
@@ -55,11 +73,12 @@ export async function POST(req: NextRequest) {
     });
     if (claimed.count === 0) return NextResponse.json({ paid: true, status: "PAID" });
 
-    // Auto-submit only if the local package name exactly matches the live provider catalog.
+    // Auto-submit using the exact live provider package ID synced into the local product record.
     // If not mapped, payment remains PAID for admin review; no wallet charge is attempted.
     if (order.game.slug === "mobile-legends" && order.serverId) {
       try {
         const result = await placeMobileLegendsTopup({
+          packageId: order.product.providerPackageId,
           packageName: order.product.name,
           playerId: order.playerUid,
           serverId: order.serverId,

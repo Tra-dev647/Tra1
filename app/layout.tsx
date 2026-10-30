@@ -1,10 +1,16 @@
 import { Suspense } from "react";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { prisma } from "@/lib/prisma";
 import { CurrencyProvider } from "@/lib/currency";
 import RouteProgress from "@/components/RouteProgress";
 import AnnouncementBar from "@/components/AnnouncementBar";
+
+// Always render the desktop layout (even on phones): the browser lays the
+// page out at 1280px wide and scales it down to fit the screen.
+export const viewport: Viewport = {
+  width: 1280,
+};
 
 export const metadata: Metadata = {
   title: "TRATOPUP — Fast & Secure Game Top Up",

@@ -9,9 +9,9 @@
   --fox-surface: #181B17;
   --fox-card: #1B1F1A;
   --fox-border: #2A3328;
-  --fox-primary: #FF6B1A;
-  --fox-accent: #FFB800;
-  --fox-gold: #FFD15C;
+  --fox-primary: #B5F01A;
+  --fox-accent: #D9E56F;
+  --fox-gold: #E8F59A;
   --fox-text: #F5F5F7;
   --fox-muted: #8B8B9E;
 }
@@ -40,7 +40,7 @@ body {
 
 /* Selection */
 ::selection {
-  background: rgba(255, 107, 26, 0.35);
+  background: rgba(181, 240, 26, 0.35);
   color: #fff;
 }
 
@@ -104,10 +104,10 @@ body {
     border-radius: inherit;
     background: conic-gradient(
       from var(--angle, 0deg),
-      rgba(255, 107, 26, 0.0) 0%,
-      rgba(255, 107, 26, 0.9) 20%,
-      rgba(255, 184, 0, 0.7) 40%,
-      rgba(255, 107, 26, 0.0) 60%
+      rgba(181, 240, 26, 0.0) 0%,
+      rgba(181, 240, 26, 0.9) 20%,
+      rgba(217, 229, 111, 0.7) 40%,
+      rgba(181, 240, 26, 0.0) 60%
     );
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
@@ -123,7 +123,7 @@ body {
   }
 
   .input {
-    @apply w-full rounded-xl border border-fox-border bg-fox-surface/80 px-4 py-3 text-fox-text placeholder:text-fox-muted transition-all duration-200 focus:border-fox-primary focus:bg-fox-surface focus:outline-none focus:ring-2 focus:ring-fox-primary/25 focus:shadow-[0_0_0_4px_rgba(255,107,26,0.08)];
+    @apply w-full rounded-xl border border-fox-border bg-fox-surface/80 px-4 py-3 text-fox-text placeholder:text-fox-muted transition-all duration-200 focus:border-fox-primary focus:bg-fox-surface focus:outline-none focus:ring-2 focus:ring-fox-primary/25 focus:shadow-[0_0_0_4px_rgba(181, 240, 26,0.08)];
   }
 
   .label {
@@ -212,8 +212,8 @@ body {
 /* Grid pattern */
 .grid-pattern {
   background-image:
-    linear-gradient(rgba(255, 107, 26, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 107, 26, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(181, 240, 26, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(181, 240, 26, 0.05) 1px, transparent 1px);
   background-size: 40px 40px;
   mask-image: radial-gradient(ellipse at center, #000 40%, transparent 85%);
   -webkit-mask-image: radial-gradient(ellipse at center, #000 40%, transparent 85%);
@@ -221,7 +221,7 @@ body {
 
 /* Dot pattern */
 .dot-pattern {
-  background-image: radial-gradient(rgba(255, 107, 26, 0.18) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(181, 240, 26, 0.18) 1px, transparent 1px);
   background-size: 22px 22px;
   mask-image: radial-gradient(ellipse at center, #000 30%, transparent 80%);
   -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 80%);
@@ -232,10 +232,10 @@ body {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(80% 60% at 20% 10%, rgba(255, 107, 26, 0.22) 0%, transparent 55%),
-    radial-gradient(60% 50% at 80% 20%, rgba(255, 184, 0, 0.18) 0%, transparent 55%),
-    radial-gradient(70% 70% at 50% 100%, rgba(255, 209, 92, 0.12) 0%, transparent 55%),
-    radial-gradient(40% 40% at 60% 60%, rgba(255, 107, 26, 0.08) 0%, transparent 50%);
+    radial-gradient(80% 60% at 20% 10%, rgba(181, 240, 26, 0.22) 0%, transparent 55%),
+    radial-gradient(60% 50% at 80% 20%, rgba(217, 229, 111, 0.18) 0%, transparent 55%),
+    radial-gradient(70% 70% at 50% 100%, rgba(232, 245, 154, 0.12) 0%, transparent 55%),
+    radial-gradient(40% 40% at 60% 60%, rgba(181, 240, 26, 0.08) 0%, transparent 50%);
   filter: blur(30px);
   animation: hero-mesh 20s ease-in-out infinite;
   pointer-events: none;
@@ -252,9 +252,9 @@ body {
   position: absolute;
   inset: -10% -10% -10% -10%;
   background-image:
-    radial-gradient(60% 60% at 20% 20%, rgba(255, 107, 26, 0.35) 0%, transparent 60%),
-    radial-gradient(55% 55% at 80% 30%, rgba(255, 184, 0, 0.28) 0%, transparent 60%),
-    radial-gradient(50% 50% at 50% 90%, rgba(255, 209, 92, 0.22) 0%, transparent 60%);
+    radial-gradient(60% 60% at 20% 20%, rgba(181, 240, 26, 0.35) 0%, transparent 60%),
+    radial-gradient(55% 55% at 80% 30%, rgba(217, 229, 111, 0.28) 0%, transparent 60%),
+    radial-gradient(50% 50% at 50% 90%, rgba(232, 245, 154, 0.22) 0%, transparent 60%);
   filter: blur(20px);
   animation: aurora-drift 18s ease-in-out infinite;
   pointer-events: none;

@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { isValidUid, isValidServerId, formatUsd } from "@/lib/utils";
 import { useCurrency } from "@/lib/currency";
-import { QrCode, ArrowRight, Lock, Check, Smartphone, Search, UserRoundCheck, AlertCircle, Tag, Loader2, User, HelpCircle } from "lucide-react";
+import { ArrowRight, Lock, Search, UserRoundCheck, AlertCircle, Tag, Loader2, User, HelpCircle, Banknote } from "lucide-react";
 
 // Games that support automatic nickname lookup via /api/lookup-uid
 const LOOKUP_SLUGS = new Set(["mobile-legends", "free-fire", "genshin-impact", "honkai-star-rail"]);
@@ -220,7 +220,7 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
         <div className="space-y-8">
       {/* Step 2: UID */}
       <div className="fade-up" style={{ animationDelay: "80ms" }}>
-        <div className="card p-5 sm:p-6 space-y-4">
+        <div className="card border-white/5 bg-gradient-to-br from-[#272c30] to-[#222d28] p-5 sm:p-6 space-y-4">
           <div className="flex items-center gap-3">
             <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#d9e56f] text-black">
               <User className="h-5 w-5" strokeWidth={2.5} />
@@ -345,56 +345,6 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
         </div>
       </div>
 
-      {/* Promo Code */}
-      <div className="fade-up" style={{ animationDelay: "140ms" }}>
-        <div className="flex items-center gap-3 mb-4">
-          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-fox-surface border border-fox-border text-fox-muted">
-            <Tag className="h-3.5 w-3.5" strokeWidth={2.5} />
-          </div>
-          <h3 className="font-display text-sm font-semibold text-fox-muted">Have a promo code?</h3>
-        </div>
-
-        {promoApplied ? (
-          <div className="flex items-center gap-3 rounded-xl border border-green-500/40 bg-green-500/10 p-3">
-            <Tag className="h-4 w-4 text-green-400 shrink-0" />
-            <div className="flex-1 min-w-0">
-              <span className="font-mono font-bold text-green-400 text-sm">{promoApplied.code}</span>
-              <span className="text-xs text-green-400/80 ml-2">
-                −{format(promoApplied.discountUsd)} off
-              </span>
-            </div>
-            <button
-              type="button"
-              onClick={removePromo}
-              className="text-xs text-fox-muted hover:text-red-400 transition-colors"
-            >
-              Remove
-            </button>
-          </div>
-        ) : (
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={promoInput}
-              onChange={(e) => { setPromoInput(e.target.value.toUpperCase()); setPromoError(null); }}
-              placeholder="Enter code"
-              className="input font-mono uppercase text-sm flex-1"
-            />
-            <button
-              type="button"
-              onClick={applyPromo}
-              disabled={promoLoading || !promoInput.trim() || !selectedProduct}
-              className="btn-ghost text-sm shrink-0"
-            >
-              {promoLoading ? "..." : "Apply"}
-            </button>
-          </div>
-        )}
-        {promoError && (
-          <p className="mt-2 text-xs text-red-400">{promoError}</p>
-        )}
-      </div>
-
       {/* Step 1: Pick package */}
       <div className="fade-up">
         <div className="flex items-center gap-3 mb-4">
@@ -458,71 +408,88 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
         </div>
       </div>
 
-      {/* Step 3: Payment */}
+      {/* Payment method */}
       <div className="fade-up" style={{ animationDelay: "160ms" }}>
-        <div className="flex items-center gap-3 mb-4">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-fox-primary to-fox-accent font-display font-bold text-black shadow-lg shadow-fox-primary/40">
-            3
+        <div className="card border-white/5 bg-gradient-to-br from-[#272c30] to-[#222d28] p-5 sm:p-6 space-y-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#d9e56f] text-black">
+              <Banknote className="h-5 w-5" strokeWidth={2.5} />
+            </div>
+            <h2 className="font-display text-lg sm:text-xl font-bold uppercase tracking-wide">
+              Payment Method
+            </h2>
           </div>
-          <h2 className="font-display text-xl font-bold">Choose Payment</h2>
-        </div>
 
-        <div className="grid gap-3">
           <button
             type="button"
             onClick={() => setMethod("BAKONG")}
-            className={`group relative rounded-xl border-2 p-4 sm:p-5 text-left transition-all duration-300 hover:-translate-y-0.5 ${
-              method === "BAKONG"
-                ? "border-fox-primary bg-gradient-to-br from-fox-primary/15 to-fox-accent/5 shadow-lg shadow-fox-primary/20"
-                : "border-fox-border bg-fox-card hover:border-fox-primary/50 hover:shadow-md hover:shadow-fox-primary/10"
-            }`}
+            className="flex w-full items-center gap-4 rounded-2xl border-2 border-[#b5f01a] bg-[#212d16] p-4 text-left sm:p-5"
           >
-            <div className="flex items-center gap-3 sm:gap-4">
-              <div className="flex h-12 w-12 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-fox-primary/20 to-fox-accent/10 border border-fox-primary/30 text-fox-primary transition-transform duration-300 group-hover:scale-110">
-                <QrCode className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={2} />
+            {/* ABA KHQR badge */}
+            <div className="flex h-20 w-20 shrink-0 flex-col overflow-hidden rounded-2xl sm:h-24 sm:w-24">
+              <div className="flex flex-[3] items-center justify-center bg-[#005e7b]">
+                <span className="text-lg font-extrabold tracking-[0.2em] text-white sm:text-xl">
+                  ABA<span className="ml-0.5 inline-block h-2 w-1 -translate-y-2 bg-[#e1232e]" />
+                </span>
               </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-semibold text-sm sm:text-base">Bakong KHQR · USD</span>
-                  <span className="rounded-full border border-green-500/40 bg-green-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-green-400">
-                    Instant
-                  </span>
-                </div>
-                <div className="text-xs text-fox-muted mt-0.5">
-                  Scan and pay securely using Bakong-supported bank apps.
-                </div>
-              </div>
-              <div
-                className={`h-5 w-5 rounded-full border-2 flex items-center justify-center transition-colors ${
-                  method === "BAKONG" ? "border-fox-primary bg-fox-primary" : "border-fox-border"
-                }`}
-              >
-                {method === "BAKONG" && <Check className="h-3 w-3 text-black" strokeWidth={3} />}
+              <div className="flex flex-[2] items-center justify-center bg-[#e1232e]">
+                <span className="text-sm font-extrabold tracking-wide text-white sm:text-base">KHQR</span>
               </div>
             </div>
-
-            <div className="mt-3 sm:mt-4 flex flex-wrap gap-1.5 sm:pl-16">
-              {[
-                { name: "ABA Pay",   color: "text-[#006FCF]" },
-                { name: "ACLEDA",    color: "text-[#0055A4]" },
-                { name: "Wing",      color: "text-[#F7941D]" },
-                { name: "TrueMoney", color: "text-[#FF4E00]" },
-                { name: "Chip Mong", color: "text-fox-text" },
-                { name: "Prince",    color: "text-fox-text" },
-              ].map((w) => (
-                <span
-                  key={w.name}
-                  className="inline-flex items-center gap-1 rounded-md border border-fox-border bg-fox-bg/50 px-2 py-1 text-[10px] font-semibold"
-                >
-                  <Smartphone className={`h-2.5 w-2.5 ${w.color}`} strokeWidth={2.5} />
-                  <span className={w.color}>{w.name}</span>
-                </span>
-              ))}
-              <span className="inline-flex items-center rounded-md px-2 py-1 text-[10px] font-medium text-fox-muted">
-                +more
-              </span>
+            <div className="min-w-0">
+              <div className="text-xl font-bold text-white sm:text-2xl">ABA KHQR</div>
+              <div className="text-sm text-white/90 sm:text-base">
+                Scan to pay with any banking app
+              </div>
             </div>
           </button>
+        </div>
+      </div>
+
+      {/* Coupon */}
+      <div className="fade-up" style={{ animationDelay: "200ms" }}>
+        <div className="card border-white/5 bg-gradient-to-br from-[#272c30] to-[#222d28] p-5 sm:p-6">
+          <h3 className="mb-3 font-display text-xl font-semibold">Coupon</h3>
+
+          {promoApplied ? (
+            <div className="flex items-center gap-3 rounded-2xl border border-[#b5f01a]/40 bg-[#b5f01a]/10 p-4">
+              <Tag className="h-4 w-4 shrink-0 text-[#b5f01a]" />
+              <div className="min-w-0 flex-1">
+                <span className="font-mono text-sm font-bold text-[#b5f01a]">{promoApplied.code}</span>
+                <span className="ml-2 text-xs text-[#b5f01a]/80">
+                  −{format(promoApplied.discountUsd)} off
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={removePromo}
+                className="text-xs text-fox-muted transition-colors hover:text-red-400"
+              >
+                Remove
+              </button>
+            </div>
+          ) : (
+            <div className="flex gap-3">
+              <input
+                type="text"
+                value={promoInput}
+                onChange={(e) => { setPromoInput(e.target.value.toUpperCase()); setPromoError(null); }}
+                placeholder="Enter coupon code"
+                className="min-w-0 flex-1 rounded-2xl border border-white/10 bg-black/30 px-5 py-4 text-lg uppercase text-fox-text placeholder:normal-case placeholder:text-fox-muted focus:outline-none focus:ring-2 focus:ring-[#b5f01a]/30"
+              />
+              <button
+                type="button"
+                onClick={applyPromo}
+                disabled={promoLoading || !promoInput.trim() || !selectedProduct}
+                className="shrink-0 rounded-2xl bg-[#b5f01a] px-6 text-lg font-bold text-black transition-opacity disabled:bg-[#3b4d1f] disabled:text-[#9aa389] sm:px-8"
+              >
+                {promoLoading ? "..." : "Apply"}
+              </button>
+            </div>
+          )}
+          {promoError && (
+            <p className="mt-2 text-sm text-red-400">{promoError}</p>
+          )}
         </div>
       </div>
 

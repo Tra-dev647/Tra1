@@ -635,7 +635,7 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
       </div>{/* end grid */}
 
       {/* Mobile: sticky bottom summary */}
-      <div className="lg:hidden card-glow p-5 sticky bottom-3 mt-8 border border-fox-primary/30 shadow-2xl shadow-fox-primary/10 backdrop-blur-md">
+      <div className="lg:hidden card-glow p-5 mt-8 border border-fox-primary/30">
         {selectedProduct && (
           <div className="flex justify-between items-center mb-4">
             <div>

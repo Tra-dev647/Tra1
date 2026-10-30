@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import TopUpForm from "@/components/TopUpForm";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Zap } from "lucide-react";
+import { ArrowLeft, Zap, ShieldCheck } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -26,57 +26,52 @@ export default async function GamePage({ params }: { params: Promise<{ slug: str
       <Header />
 
       {/* Game banner */}
-      <section className="relative overflow-hidden border-b border-fox-border">
+      <section className="mx-auto max-w-3xl px-4 pt-4 sm:px-6">
+        <Link
+          href="/#games"
+          className="mb-3 inline-flex items-center gap-2 text-sm text-fox-muted hover:text-fox-primary transition-colors"
+        >
+          <ArrowLeft className="h-4 w-4" strokeWidth={2} />
+          All games
+        </Link>
+
         <div
-          className="absolute inset-0 opacity-30"
+          className="aspect-[2/1] w-full overflow-hidden rounded-3xl bg-fox-card"
           style={{
-            backgroundImage: game.bannerUrl ? `url(${game.bannerUrl})` : undefined,
+            backgroundImage: `url(${game.bannerUrl || game.imageUrl})`,
             backgroundSize: "cover",
-            backgroundPosition: "center",
+            backgroundPosition: "center 25%",
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-fox-bg via-fox-bg/90 to-fox-bg/70" />
 
-        <div className="relative mx-auto max-w-6xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
-          <Link
-            href="/#games"
-            className="inline-flex items-center gap-2 text-sm text-fox-muted hover:text-fox-primary transition-colors mb-4 sm:mb-6"
-          >
-            <ArrowLeft className="h-4 w-4" strokeWidth={2} />
-            All games
-          </Link>
-
-          <div className="flex items-center gap-4 sm:gap-6">
-            <div
-              className="h-20 w-20 sm:h-28 sm:w-28 rounded-2xl border-2 border-fox-border bg-fox-card shadow-xl shrink-0 overflow-hidden"
-              style={{
-                backgroundImage: `url(${game.imageUrl})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            />
-            <div>
-              <p className="text-[10px] sm:text-xs uppercase tracking-widest text-fox-muted mb-1">
-                {game.publisher}
-              </p>
-              <h1 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight mb-1 sm:mb-2">
-                {game.name}
-              </h1>
-              <div className="flex items-center gap-3">
-                <p className="text-fox-accent text-xs sm:text-sm">
-                  Top up {game.currencyName}
-                </p>
-                <span className="inline-flex items-center gap-1 rounded-full border border-green-400/30 bg-green-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-green-300">
-                  <Zap className="h-2.5 w-2.5" strokeWidth={3} />
-                  Instant delivery
-                </span>
-              </div>
+        <div className="card mt-4 flex items-center gap-4 p-4">
+          <div
+            className="h-20 w-20 shrink-0 overflow-hidden rounded-2xl border-2 border-fox-border bg-fox-card"
+            style={{
+              backgroundImage: `url(${game.imageUrl})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
+          <div className="min-w-0">
+            <h1 className="font-display text-2xl sm:text-3xl font-bold leading-tight">
+              {game.name}
+            </h1>
+            <div className="mt-2 flex flex-wrap gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-xl bg-green-500/10 px-3 py-1.5 text-xs sm:text-sm text-green-200">
+                <ShieldCheck className="h-4 w-4" strokeWidth={2} />
+                Secure top-up
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-xl bg-green-500/10 px-3 py-1.5 text-xs sm:text-sm text-green-200">
+                <Zap className="h-4 w-4" strokeWidth={2} />
+                Instant delivery
+              </span>
             </div>
           </div>
         </div>
       </section>
 
-      <main className="mx-auto max-w-6xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-6xl px-4 py-6 sm:py-10 sm:px-6 lg:px-8">
         <TopUpForm
           game={{
             id: game.id,

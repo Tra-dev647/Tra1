@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { isValidUid, isValidServerId, formatUsd } from "@/lib/utils";
 import { useCurrency } from "@/lib/currency";
-import { QrCode, ArrowRight, Lock, Check, Smartphone, Search, UserRoundCheck, AlertCircle, Tag, Loader2 } from "lucide-react";
+import { QrCode, ArrowRight, Lock, Check, Smartphone, Search, UserRoundCheck, AlertCircle, Tag, Loader2, User, HelpCircle } from "lucide-react";
 
 // Games that support automatic nickname lookup via /api/lookup-uid
 const LOOKUP_SLUGS = new Set(["mobile-legends", "free-fire", "genshin-impact", "honkai-star-rail"]);
@@ -42,6 +42,7 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
   const [error, setError] = useState<string | null>(null);
 
   // Promo code state
+  const [showHelp, setShowHelp] = useState(false);
   const [promoInput, setPromoInput] = useState("");
   const [promoApplied, setPromoApplied] = useState<{
     code: string;
@@ -293,26 +294,41 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
 
       {/* Step 2: UID */}
       <div className="fade-up" style={{ animationDelay: "80ms" }}>
-        <div className="flex items-center gap-3 mb-4">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-fox-primary to-fox-accent font-display font-bold text-black shadow-lg shadow-fox-primary/40">
-            2
-          </div>
-          <h2 className="font-display text-xl font-bold">Enter Account Info</h2>
-        </div>
-
         <div className="card p-5 sm:p-6 space-y-4">
-          <div className={useZoneField ? "grid grid-cols-[1fr_120px] sm:grid-cols-[1fr_140px] gap-3" : ""}>
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#d9e56f] text-black">
+              <User className="h-5 w-5" strokeWidth={2.5} />
+            </div>
+            <h2 className="flex-1 font-display text-lg sm:text-xl font-bold uppercase tracking-wide">
+              Enter Your Information
+            </h2>
+            <button
+              type="button"
+              onClick={() => setShowHelp((v) => !v)}
+              aria-label="Help"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-[#d9e56f]/40 bg-[#d9e56f]/10 text-[#d9e56f]"
+            >
+              <HelpCircle className="h-5 w-5" strokeWidth={2} />
+            </button>
+          </div>
+
+          {showHelp && (
+            <p className="rounded-xl bg-black/30 px-4 py-3 text-sm text-fox-muted">
+              Open the game and tap your profile to find your Game ID
+              {useZoneField ? " and Server ID (the number in brackets)" : ""}.
+            </p>
+          )}
+
+          <div className="space-y-3">
             <div>
-              <label className="label">
-                {useZoneField ? "User ID" : game.uidLabel}
-              </label>
               <input
                 type="text"
                 inputMode="numeric"
+                aria-label={useZoneField ? "Game ID" : game.uidLabel}
                 value={uid}
                 onChange={(e) => setUid(e.target.value)}
-                placeholder={useZoneField ? "12345678" : (game.uidExample || "Enter your player ID")}
-                className="input font-mono text-lg py-3.5"
+                placeholder={useZoneField ? "Enter Game ID" : `Enter ${game.uidLabel}`}
+                className="w-full rounded-2xl border border-white/5 bg-black/40 px-5 py-4 text-lg text-fox-text placeholder:text-fox-muted focus:outline-none focus:ring-2 focus:ring-fox-primary/30"
                 required
               />
               {!uid && game.uidExample && !useZoneField && (
@@ -327,28 +343,26 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
               )}
             </div>
             {useZoneField && (
-              <div>
-                <label className="label">Zone ID</label>
-                <input
-                  type="text"
-                  inputMode="numeric"
-                  value={serverId}
-                  onChange={(e) => setServerId(e.target.value)}
-                  placeholder="1234"
-                  className="input font-mono text-lg py-3.5"
-                  required
-                />
-              </div>
+              <input
+                type="text"
+                inputMode="numeric"
+                aria-label="Server ID"
+                value={serverId}
+                onChange={(e) => setServerId(e.target.value)}
+                placeholder="Enter Server ID"
+                className="w-full rounded-2xl border border-white/5 bg-black/40 px-5 py-4 text-lg text-fox-text placeholder:text-fox-muted focus:outline-none focus:ring-2 focus:ring-fox-primary/30"
+                required
+              />
             )}
           </div>
 
           {game.requiresServer && !useZoneField && (
             <div>
-              <label className="label">Server</label>
               <select
                 value={serverId}
                 onChange={(e) => setServerId(e.target.value)}
-                className="input"
+                aria-label="Server"
+                className="w-full rounded-2xl border border-white/5 bg-black/40 px-5 py-4 text-lg text-fox-text focus:outline-none focus:ring-2 focus:ring-fox-primary/30"
                 required
               >
                 {game.servers.map((s) => (

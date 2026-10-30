@@ -13,10 +13,10 @@ module.exports = {
       },
       colors: {
         fox: {
-          bg: "#0A0A0F",
-          surface: "#12121A",
-          card: "#1A1A26",
-          border: "#24243A",
+          bg: "#121411",
+          surface: "#181B17",
+          card: "#1B1F1A",
+          border: "#2A3328",
           primary: "#FF6B1A",
           accent: "#FFB800",
           gold: "#FFD15C",

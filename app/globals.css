@@ -5,10 +5,10 @@
 
 
 :root {
-  --fox-bg: #0A0A0F;
-  --fox-surface: #12121A;
-  --fox-card: #1A1A26;
-  --fox-border: #24243A;
+  --fox-bg: #121411;
+  --fox-surface: #181B17;
+  --fox-card: #1B1F1A;
+  --fox-border: #2A3328;
   --fox-primary: #FF6B1A;
   --fox-accent: #FFB800;
   --fox-gold: #FFD15C;
@@ -34,24 +34,8 @@ body {
 }
 
 body {
-  background-image:
-    radial-gradient(circle at 15% 0%, rgba(255, 107, 26, 0.10) 0%, transparent 45%),
-    radial-gradient(circle at 85% 100%, rgba(255, 184, 0, 0.07) 0%, transparent 45%),
-    radial-gradient(circle at 50% 50%, rgba(255, 209, 92, 0.03) 0%, transparent 60%);
-  background-attachment: fixed;
+  background-image: none;
   position: relative;
-}
-
-/* Subtle film-grain noise layer over entire body */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-  mix-blend-mode: overlay;
 }
 
 /* Selection */

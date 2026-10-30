@@ -123,7 +123,7 @@ body {
   }
 
   .input {
-    @apply w-full rounded-xl border border-fox-border bg-fox-surface/80 px-4 py-3 text-fox-text placeholder:text-fox-muted transition-all duration-200 focus:border-fox-primary focus:bg-fox-surface focus:outline-none focus:ring-2 focus:ring-fox-primary/25 focus:shadow-[0_0_0_4px_rgba(181, 240, 26,0.08)];
+    @apply w-full rounded-xl border border-fox-border bg-fox-surface/80 px-4 py-3 text-fox-text placeholder:text-fox-muted transition-all duration-200 focus:border-fox-primary focus:bg-fox-surface focus:outline-none focus:ring-2 focus:ring-fox-primary/25 focus:shadow-[0_0_0_4px_rgba(181,240,26,0.08)];
   }
 
   .label {

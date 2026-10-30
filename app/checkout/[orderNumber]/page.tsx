@@ -13,8 +13,6 @@ import {
   Check,
   Loader2,
   AlertCircle,
-  RefreshCw,
-  ShieldCheck,
   ExternalLink,
 } from "lucide-react";
 
@@ -254,95 +252,71 @@ export default function CheckoutPage() {
               </div>
             )}
 
-            {/* Bakong payment */}
+            {/* Bakong payment — KHQR card */}
             {!isPaid && !isExpired && (
-              <div className="space-y-6">
-                <div className="text-center">
-                  <h1 className="font-display text-2xl sm:text-3xl font-bold mb-1">
-                    Complete Your Payment
-                  </h1>
-                  <p className="text-fox-muted text-sm">
-                    Scan this USD KHQR using Bakong or a bank app that supports KHQR.
-                  </p>
-                </div>
+              <div className="mx-auto w-full max-w-sm space-y-4">
+                <div className="overflow-hidden rounded-3xl bg-white text-gray-900 shadow-2xl shadow-black/40">
+                  {/* KHQR header */}
+                  <div className="relative flex h-14 items-center justify-center bg-[#e1232e]">
+                    <span className="font-display text-2xl font-extrabold tracking-widest text-white">KHQR</span>
+                    <span className="absolute -bottom-3 right-0 h-0 w-0 border-l-[24px] border-t-[12px] border-l-transparent border-t-[#e1232e]" />
+                  </div>
 
-                <div className="grid md:grid-cols-[auto_1fr] gap-6 items-start">
-                  {/* QR / redirect panel */}
-                  <div className="mx-auto rounded-2xl border-2 border-fox-primary/30 bg-white p-4 shadow-xl shadow-fox-primary/20">
-                    {order.qrString ? (
-                      <QRCodeSVG value={order.qrString} size={280} level="M" marginSize={2} className="block" />
-                    ) : (
-                      <div className="flex h-[280px] w-[280px] flex-col items-center justify-center text-center text-gray-500">
-                        <AlertCircle className="h-14 w-14 mb-3 text-yellow-500" />
-                        <p className="text-sm font-semibold text-gray-700">KHQR is not available</p>
-                        <p className="text-xs px-4 mt-2 text-gray-500">Please contact support or create a new order.</p>
-                      </div>
-                    )}
-                    <div className="mt-3 text-center">
-                      <div className="flex items-center justify-center gap-1 text-xs font-bold text-gray-900">
-                        <ShieldCheck className="h-3.5 w-3.5 text-green-600" />
-                        KHQR
-                      </div>
+                  <div className="px-6 pb-5 pt-5">
+                    <div className="text-sm text-gray-500">TRATOPUP</div>
+                    <div className="font-display text-4xl font-extrabold leading-tight">
+                      {format(order.amountUsd)}
                     </div>
                   </div>
 
-                  {/* Details panel */}
-                  <div className="space-y-4">
-                    <div className="rounded-xl border border-fox-border bg-fox-card p-4">
-                      <div className="text-[10px] uppercase tracking-widest text-fox-muted mb-1">Amount due</div>
-                      <div className="font-display text-3xl font-bold text-fox-primary">
-                        {format(order.amountUsd)}
-                      </div>
+                  <div className="border-t-2 border-dashed border-gray-300" />
 
-                    </div>
+                  <div className="flex flex-col items-center px-6 pb-5 pt-5">
+                    {order.qrString ? (
+                      <QRCodeSVG value={order.qrString} size={230} level="M" marginSize={1} className="block" />
+                    ) : (
+                      <div className="flex h-[230px] w-[230px] flex-col items-center justify-center text-center text-gray-500">
+                        <AlertCircle className="mb-3 h-12 w-12 text-yellow-500" />
+                        <p className="text-sm font-semibold text-gray-700">KHQR is not available</p>
+                        <p className="mt-2 px-4 text-xs text-gray-500">Please contact support or create a new order.</p>
+                      </div>
+                    )}
 
                     {remainingMs !== null && (
-                      <div className="rounded-xl border border-yellow-400/30 bg-yellow-400/5 p-4">
-                        <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-yellow-400/90 mb-1">
-                          <Clock className="h-3 w-3" />
-                          Time remaining
-                        </div>
-                        <div className="font-mono text-2xl font-bold text-yellow-300">
-                          {formatCountdown(remainingMs)}
-                        </div>
+                      <div className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-sm font-semibold text-gray-700">
+                        <Clock className="h-4 w-4" />
+                        <span className="font-mono">{formatCountdown(remainingMs)}</span>
                       </div>
                     )}
 
-                    <div className="rounded-xl border border-fox-border bg-fox-card p-4">
-                      <div className="flex items-center gap-2 text-sm">
-                        <Loader2 className="h-4 w-4 animate-spin text-fox-primary" />
-                        <span className="text-fox-muted">Waiting for payment...</span>
-                      </div>
-                      <button
-                        onClick={() => fetchOrder()}
-                        className="mt-2 text-xs text-fox-primary hover:underline inline-flex items-center gap-1"
-                        type="button"
-                      >
-                        <RefreshCw className="h-3 w-3" />
-                        Check now
-                      </button>
+                    <div className="mt-3 flex items-center gap-2 text-sm text-gray-500">
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Waiting for payment...
                     </div>
-
-                    {notice && (
-                      <div className="rounded-xl border border-yellow-400/40 bg-yellow-400/10 p-3 text-sm text-yellow-200">
-                        {notice}
-                      </div>
-                    )}
-
-                    <button
-                      type="button"
-                      onClick={verifyPayment}
-                      disabled={simulating}
-                      className="w-full rounded-xl border border-fox-primary/40 bg-fox-primary/10 text-fox-primary hover:bg-fox-primary/20 disabled:opacity-60 px-4 py-3 text-sm font-semibold transition"
-                    >
-                      {simulating ? "Checking Bakong..." : "I have paid — Verify with Bakong"}
-                    </button>
+                    <p className="mt-1 text-center text-xs text-gray-400">
+                      Scan with Bakong or any banking app that supports KHQR
+                    </p>
                   </div>
                 </div>
+
+                {notice && (
+                  <div className="rounded-xl border border-yellow-400/40 bg-yellow-400/10 p-3 text-sm text-yellow-200">
+                    {notice}
+                  </div>
+                )}
+
+                <button
+                  type="button"
+                  onClick={verifyPayment}
+                  disabled={simulating}
+                  className="w-full rounded-xl bg-[#b5f01a] px-4 py-3 text-sm font-bold text-black transition disabled:opacity-60"
+                >
+                  {simulating ? "Checking Bakong..." : "I have paid — Verify"}
+                </button>
 
                 {/* Order summary */}
                 <div className="rounded-xl border border-fox-border bg-fox-card p-4">
-                  <div className="text-[10px] uppercase tracking-widest text-fox-muted mb-3">Order details</div>
+                  <div className="mb-3 text-[10px] uppercase tracking-widest text-fox-muted">Order details</div>
                   <div className="space-y-2 text-sm">
                     <Row label="Order #">
                       <button type="button" onClick={() => copy(order.orderNumber, "order")}

@@ -425,19 +425,15 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
             onClick={() => setMethod("BAKONG")}
             className="flex w-full items-center gap-4 rounded-2xl border-2 border-[#b5f01a] bg-[#212d16] p-4 text-left sm:p-5"
           >
-            {/* ABA KHQR badge */}
-            <div className="flex h-20 w-20 shrink-0 flex-col overflow-hidden rounded-2xl sm:h-24 sm:w-24">
-              <div className="flex flex-[3] items-center justify-center bg-[#005e7b]">
-                <span className="text-lg font-extrabold tracking-[0.2em] text-white sm:text-xl">
-                  ABA<span className="ml-0.5 inline-block h-2 w-1 -translate-y-2 bg-[#e1232e]" />
-                </span>
-              </div>
-              <div className="flex flex-[2] items-center justify-center bg-[#e1232e]">
-                <span className="text-sm font-extrabold tracking-wide text-white sm:text-base">KHQR</span>
-              </div>
-            </div>
+            {/* Bakong logo */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/payments/bakong.png"
+              alt="Bakong"
+              className="h-20 w-20 shrink-0 rounded-2xl object-cover sm:h-24 sm:w-24"
+            />
             <div className="min-w-0">
-              <div className="text-xl font-bold text-white sm:text-2xl">ABA KHQR</div>
+              <div className="text-xl font-bold text-white sm:text-2xl">Bakong KHQR</div>
               <div className="text-sm text-white/90 sm:text-base">
                 Scan to pay with any banking app
               </div>

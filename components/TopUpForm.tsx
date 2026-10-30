@@ -17,6 +17,7 @@ interface Product {
   bonus: number;
   priceUsd: number;
   badge: string | null;
+  imageUrl?: string | null;
 }
 
 interface Game {
@@ -355,6 +356,21 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
           <h2 className="font-display text-xl font-bold">Choose Package</h2>
         </div>
 
+        <div className="mb-3 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#d9e56f]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/games/diamond.png" alt="" className="h-5 w-5 object-contain" />
+            </div>
+            <h3 className="font-display text-base sm:text-lg font-bold uppercase tracking-wide">
+              Saving Packages
+            </h3>
+          </div>
+          <span className="rounded-full bg-[#d9e56f] px-3 py-1 text-xs font-extrabold uppercase text-black">
+            {products.length} items
+          </span>
+        </div>
+
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {products.map((p) => {
             const isSelected = selected === p.id;
@@ -380,12 +396,12 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
                   </div>
                 )}
 
-                <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-lg bg-white/5">
+                <div className="flex h-12 w-12 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-lg bg-white/5">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/games/diamond.png"
+                    src={p.imageUrl || "/games/diamond.png"}
                     alt=""
-                    className="h-6 w-6 sm:h-8 sm:w-8 object-contain"
+                    className="h-10 w-10 sm:h-12 sm:w-12 object-contain"
                   />
                 </div>
 

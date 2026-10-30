@@ -5,7 +5,7 @@ import GameCard from "@/components/GameCard";
 import RecentOrdersTicker from "@/components/RecentOrdersTicker";
 import HeroCarousel from "@/components/HeroCarousel";
 import Link from "next/link";
-import { Zap, ShieldCheck, BadgePercent, Gamepad2, UserRoundCheck, CreditCard, ArrowRight, Search, Sparkles } from "lucide-react";
+import { Zap, ShieldCheck, BadgePercent, Gamepad2, UserRoundCheck, CreditCard, ArrowRight } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -30,44 +30,6 @@ export default async function HomePage() {
           <HeroCarousel banners={banners} />
         </div>
       )}
-
-      {/* Hero — clean & compact */}
-      <section className="relative overflow-hidden py-16 sm:py-24">
-        {/* Subtle background blobs */}
-        <div className="pointer-events-none absolute top-0 left-1/4 h-96 w-96 rounded-full bg-fox-primary/10 blur-[120px] animate-float" />
-        <div className="pointer-events-none absolute bottom-0 right-1/4 h-80 w-80 rounded-full bg-fox-accent/8 blur-[120px] animate-float-slow" />
-
-        <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6">
-          <div className="inline-flex items-center gap-2 rounded-full border border-fox-primary/30 bg-fox-primary/10 px-4 py-1.5 text-xs font-medium text-fox-primary mb-6 fade-up backdrop-blur-sm">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-fox-primary opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-fox-primary" />
-            </span>
-            24/7 Instant Delivery
-          </div>
-
-          <h1 className="font-display text-4xl sm:text-6xl font-bold tracking-tight fade-up" style={{ animationDelay: "0.1s" }}>
-            Game Top-Ups, <span className="shine-text">Instant.</span>
-          </h1>
-
-          <p className="mt-4 text-base sm:text-lg text-fox-muted max-w-xl mx-auto fade-up leading-relaxed" style={{ animationDelay: "0.2s" }}>
-            Mobile Legends, Free Fire, PUBG, Genshin Impact &amp; more.
-            Enter your UID, pay, done.
-          </p>
-
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 fade-up" style={{ animationDelay: "0.3s" }}>
-            <Link href="#games" className="btn-primary group text-base py-3.5 px-8">
-              <Sparkles className="h-5 w-5" strokeWidth={2.5} />
-              Top Up Now
-              <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" strokeWidth={2.5} />
-            </Link>
-            <Link href="/order" className="btn-ghost py-3.5 px-8">
-              <Search className="h-4 w-4" strokeWidth={2} />
-              Track Order
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* Recent orders ticker */}
       <RecentOrdersTicker />

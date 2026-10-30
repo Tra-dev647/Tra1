@@ -33,7 +33,7 @@ export default async function AdminLayout({
             </div>
             <div>
               <div className="font-display font-bold text-sm">
-                RITH<span className="text-fox-primary">TOPUP</span>
+                TRA<span className="text-fox-primary">TOPUP</span>
               </div>
               <div className="text-[10px] text-fox-muted uppercase tracking-widest">
                 Admin Panel

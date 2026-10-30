@@ -1,0 +1,133 @@
+diff --git a/components/TopUpForm.tsx b/components/TopUpForm.tsx
+index 6d75e4c..09de47e 100644
+--- a/components/TopUpForm.tsx
++++ b/components/TopUpForm.tsx
+@@ -217,7 +217,7 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
+     <form onSubmit={handleSubmit}>
+       <div className="lg:grid lg:grid-cols-[1fr_340px] lg:gap-8">
+         {/* Left column: steps */}
+-        <div className="space-y-5">
++        <div className="space-y-4">
+       {/* Step 2: UID */}
+       <div className="fade-up" style={{ animationDelay: "80ms" }}>
+         <div className="card border-white/5 bg-gradient-to-br from-[#272c30] to-[#222d28] p-4 sm:p-5 space-y-3">
+@@ -410,12 +410,12 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
+ 
+       {/* Payment method */}
+       <div className="fade-up" style={{ animationDelay: "160ms" }}>
+-        <div className="card border-white/5 bg-gradient-to-br from-[#272c30] to-[#222d28] p-5 sm:p-6 space-y-4">
+-          <div className="flex items-center gap-3">
+-            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#d9e56f] text-black">
+-              <Banknote className="h-5 w-5" strokeWidth={2.5} />
++        <div className="card border-white/5 bg-gradient-to-br from-[#272c30] to-[#222d28] p-4 sm:p-5 space-y-3">
++          <div className="flex items-center gap-2.5">
++            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#d9e56f] text-black">
++              <Banknote className="h-4 w-4" strokeWidth={2.5} />
+             </div>
+-            <h2 className="font-display text-lg sm:text-xl font-bold uppercase tracking-wide">
++            <h2 className="font-display text-base sm:text-lg font-bold uppercase tracking-wide">
+               Payment Method
+             </h2>
+           </div>
+@@ -423,18 +423,18 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
+           <button
+             type="button"
+             onClick={() => setMethod("BAKONG")}
+-            className="flex w-full items-center gap-4 rounded-2xl border-2 border-[#b5f01a] bg-[#212d16] p-4 text-left sm:p-5"
++            className="flex w-full items-center gap-3 rounded-xl border-2 border-[#b5f01a] bg-[#212d16] p-3 text-left"
+           >
+             {/* Bakong logo */}
+             {/* eslint-disable-next-line @next/next/no-img-element */}
+             <img
+               src="/payments/bakong.png"
+               alt="Bakong"
+-              className="h-20 w-20 shrink-0 rounded-2xl object-cover sm:h-24 sm:w-24"
++              className="h-12 w-12 shrink-0 rounded-xl object-cover sm:h-14 sm:w-14"
+             />
+             <div className="min-w-0">
+-              <div className="text-xl font-bold text-white sm:text-2xl">Bakong KHQR</div>
+-              <div className="text-sm text-white/90 sm:text-base">
++              <div className="text-base font-bold text-white sm:text-lg">Bakong KHQR</div>
++              <div className="text-xs text-white/90 sm:text-sm">
+                 Scan to pay with any banking app
+               </div>
+             </div>
+@@ -444,11 +444,11 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
+ 
+       {/* Coupon */}
+       <div className="fade-up" style={{ animationDelay: "200ms" }}>
+-        <div className="card border-white/5 bg-gradient-to-br from-[#272c30] to-[#222d28] p-5 sm:p-6">
+-          <h3 className="mb-3 font-display text-xl font-semibold">Coupon</h3>
++        <div className="card border-white/5 bg-gradient-to-br from-[#272c30] to-[#222d28] p-4 sm:p-5">
++          <h3 className="mb-2 font-display text-base font-semibold">Coupon</h3>
+ 
+           {promoApplied ? (
+-            <div className="flex items-center gap-3 rounded-2xl border border-[#b5f01a]/40 bg-[#b5f01a]/10 p-4">
++            <div className="flex items-center gap-3 rounded-xl border border-[#b5f01a]/40 bg-[#b5f01a]/10 p-3">
+               <Tag className="h-4 w-4 shrink-0 text-[#b5f01a]" />
+               <div className="min-w-0 flex-1">
+                 <span className="font-mono text-sm font-bold text-[#b5f01a]">{promoApplied.code}</span>
+@@ -465,19 +465,19 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
+               </button>
+             </div>
+           ) : (
+-            <div className="flex gap-3">
++            <div className="flex gap-2">
+               <input
+                 type="text"
+                 value={promoInput}
+                 onChange={(e) => { setPromoInput(e.target.value.toUpperCase()); setPromoError(null); }}
+                 placeholder="Enter coupon code"
+-                className="min-w-0 flex-1 rounded-2xl border border-white/10 bg-black/30 px-5 py-4 text-lg uppercase text-fox-text placeholder:normal-case placeholder:text-fox-muted focus:outline-none focus:ring-2 focus:ring-[#b5f01a]/30"
++                className="min-w-0 flex-1 rounded-xl border border-white/10 bg-black/30 px-4 py-2.5 text-base uppercase text-fox-text placeholder:normal-case placeholder:text-fox-muted focus:outline-none focus:ring-2 focus:ring-[#b5f01a]/30"
+               />
+               <button
+                 type="button"
+                 onClick={applyPromo}
+                 disabled={promoLoading || !promoInput.trim() || !selectedProduct}
+-                className="shrink-0 rounded-2xl bg-[#b5f01a] px-6 text-lg font-bold text-black transition-opacity disabled:bg-[#3b4d1f] disabled:text-[#9aa389] sm:px-8"
++                className="shrink-0 rounded-xl bg-[#b5f01a] px-5 text-sm font-bold text-black transition-opacity disabled:bg-[#3b4d1f] disabled:text-[#9aa389]"
+               >
+                 {promoLoading ? "..." : "Apply"}
+               </button>
+@@ -581,12 +581,12 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
+       </div>{/* end grid */}
+ 
+       {/* Mobile: sticky bottom summary */}
+-      <div className="lg:hidden card-glow p-5 mt-8 border border-fox-primary/30">
++      <div className="lg:hidden card-glow p-4 mt-5 border border-fox-primary/30">
+         {selectedProduct && (
+-          <div className="flex justify-between items-center mb-4">
++          <div className="flex justify-between items-center mb-3">
+             <div>
+               <div className="text-xs uppercase tracking-wider text-fox-muted">Total</div>
+-              <div key={selectedProduct.id} className="font-display text-3xl font-bold text-gradient animate-scale-in">
++              <div key={selectedProduct.id} className="font-display text-2xl font-bold text-gradient animate-scale-in">
+                 {format(effectivePrice)}
+               </div>
+ 
+@@ -595,7 +595,7 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
+               )}
+             </div>
+             <div className="text-right">
+-              <div className="text-sm text-fox-muted">
++              <div className="text-xs text-fox-muted">
+                 {selectedProduct.amount > 0
+                   ? `${selectedProduct.amount.toLocaleString()} ${game.currencyName}`
+                   : selectedProduct.name}
+@@ -618,13 +618,13 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
+         <button
+           type="submit"
+           disabled={!canSubmit || submitting}
+-          className="btn-primary w-full text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
++          className="btn-primary w-full !py-2.5 text-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+         >
+           {submitting ? "Creating order..." : "Pay Now"}
+           {!submitting && <ArrowRight className="h-5 w-5" strokeWidth={2.5} />}
+         </button>
+ 
+-        <p className="flex items-center justify-center gap-1.5 text-xs text-fox-muted text-center mt-3">
++        <p className="flex items-center justify-center gap-1.5 text-[11px] text-fox-muted text-center mt-2">
+           <Lock className="h-3 w-3" strokeWidth={2.5} />
+           Secure checkout · No account needed
+         </p>

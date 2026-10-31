@@ -165,12 +165,13 @@ export async function lookupNickname(
 
 export async function lookupFreeFireBonus(uid: string): Promise<string | null> {
   try {
-    const data = await verifyGameAccount("free-fire-bonuse", uid);
+    const data = (await verifyGameAccount("free-fire-bonuse", uid)) as { result?: string };
+    if (data?.result === "invalid") return null; // provider says the account does not exist
     const name = pickName(data);
     if (name) return name;
-    console.warn("[uidLookup] FF Bonus returned no name, keys:", Object.keys((data as object) ?? {}));
+    console.warn("[uidLookup] FF Bonus: no name, result =", data?.result);
   } catch (err) {
     console.warn("[uidLookup] FF Bonus check failed:", err instanceof Error ? err.message : err);
   }
-  return fetchIsan(`https://api.isan.eu.org/nickname/ff/${encodeURIComponent(uid)}`);
+  return null;
 }

@@ -5,7 +5,7 @@
  * Every function has a 5 s timeout and catches all errors → returns null.
  */
 
-import { verifyMobileLegendsAccount, verifyAccount } from "@/lib/khmer-topup";
+import { verifyMobileLegendsAccount, verifyGameAccount } from "@/lib/khmer-topup";
 
 // ---------- helpers ----------
 
@@ -79,50 +79,45 @@ export async function lookupMobileLegends(
   );
 }
 
-export async function lookupFreeFire(uid: string): Promise<string | null> {
-  // 1) Khmer Topup reseller check (slug "free-fire"); falls through if unsupported
-  try {
-    const data = await verifyAccount("free-fire", uid);
-    const name = pickName(data);
-    if (name) return name;
-    console.warn("[uidLookup] Khmer Topup free-fire check returned no name, keys:", Object.keys((data as object) ?? {}));
-  } catch (err) {
-    console.warn("[uidLookup] Khmer Topup free-fire check failed:", err instanceof Error ? err.message : err);
-  }
-  // 2) Fallback: CamRapid validator
-  // CamRapidSecure FreeFire validator
-  // GET https://v1.camrapidx.com/validate_user/FreeFire_LevelUpPass.php?UserID=<uid>
-  // Returns: { status: "APPROVED", username: "PlayerName#", ... }
+async function lookupFreeFireLegacy(uid: string): Promise<string | null> {
   try {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 6000);
-
     const res = await fetch(
       `https://v1.camrapidx.com/validate_user/FreeFire_LevelUpPass.php?UserID=${encodeURIComponent(uid)}`,
       {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "User-Agent": "TRATOPUP/1.0",
-        },
+        headers: { Accept: "application/json", "User-Agent": "TRATOPUP/1.0" },
         cache: "no-store",
         signal: controller.signal,
       },
     );
     clearTimeout(timer);
-
     if (!res.ok) return null;
-
     const data = await res.json().catch(() => null);
     if (!data || data.status !== "APPROVED") return null;
-
-    if (typeof data.username === "string" && data.username.length > 0) {
-      return data.username;
-    }
-    return null;
+    return typeof data.username === "string" && data.username ? data.username : null;
   } catch {
     return null;
   }
+}
+
+export async function lookupFreeFire(uid: string): Promise<string | null> {
+  // 1) Khmer Topup reseller check (same API key as Mobile Legends)
+  for (const slug of ["free-fire", "freefire"]) {
+    try {
+      const data = await verifyGameAccount(slug, uid);
+      const name = pickName(data);
+      if (name) return name;
+    } catch (err) {
+      console.warn(`[uidLookup] FF Khmer Topup (${slug}) failed:`, err instanceof Error ? err.message : err);
+    }
+  }
+  // 2) Community API
+  const isan = await fetchIsan(`https://api.isan.eu.org/nickname/ff/${encodeURIComponent(uid)}`);
+  if (isan) return isan;
+  console.warn("[uidLookup] FF isan returned no name");
+  // 3) Old validator (kept as last resort)
+  return lookupFreeFireLegacy(uid);
 }
 
 export async function lookupGenshin(

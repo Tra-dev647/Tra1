@@ -30,14 +30,16 @@ export async function getMobileLegendsCatalog() {
   return game;
 }
 
-export async function verifyAccount(slug: string, playerId: string, serverId?: string) {
-  const params: Record<string, string> = { slug, player_id: playerId };
-  if (serverId) params.server_id = serverId;
-  return khmerTopupRequest(`/check?${new URLSearchParams(params).toString()}`);
+// Generic account check for any game slug the reseller supports (e.g. "free-fire").
+export async function verifyGameAccount(slug: string, playerId: string, serverId?: string) {
+  const query = new URLSearchParams({ slug, player_id: playerId });
+  if (serverId) query.set("server_id", serverId);
+  return khmerTopupRequest(`/check?${query.toString()}`);
 }
 
 export async function verifyMobileLegendsAccount(playerId: string, serverId: string) {
-  return verifyAccount("mobile-legends", playerId, serverId);
+  const query = new URLSearchParams({ slug: "mobile-legends", player_id: playerId, server_id: serverId });
+  return khmerTopupRequest(`/check?${query.toString()}`);
 }
 
 // Find the exact provider package name; never guess a package ID from its diamond count.

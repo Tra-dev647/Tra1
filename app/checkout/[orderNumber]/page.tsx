@@ -309,7 +309,7 @@ export default function CheckoutPage() {
                   type="button"
                   onClick={verifyPayment}
                   disabled={simulating}
-                  className="w-full rounded-xl bg-[#b5f01a] px-4 py-3 text-sm font-bold text-black transition disabled:opacity-60"
+                  className="w-full rounded-xl bg-[#ff3b3b] px-4 py-3 text-sm font-bold text-black transition disabled:opacity-60"
                 >
                   {simulating ? "Checking Bakong..." : "I have paid — Verify"}
                 </button>

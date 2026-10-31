@@ -239,9 +239,9 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
         <div className="space-y-4">
       {/* Step 2: UID */}
       <div className="fade-up" style={{ animationDelay: "80ms" }}>
-        <div className="card border-white/5 bg-gradient-to-br from-[#272c30] to-[#222d28] p-4 sm:p-5 space-y-3">
+        <div className="card border-white/5 bg-gradient-to-br from-[#2b1519] to-[#211215] p-4 sm:p-5 space-y-3">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#d9e56f] text-black">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#ff6b6b] text-black">
               <User className="h-4 w-4" strokeWidth={2.5} />
             </div>
             <h2 className="flex-1 font-display text-base sm:text-lg font-bold uppercase tracking-wide">
@@ -251,7 +251,7 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
               type="button"
               onClick={() => setShowHelp((v) => !v)}
               aria-label="Help"
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-[#d9e56f]/40 bg-[#d9e56f]/10 text-[#d9e56f]"
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-[#ff6b6b]/40 bg-[#ff6b6b]/10 text-[#ff6b6b]"
             >
               <HelpCircle className="h-4 w-4" strokeWidth={2} />
             </button>
@@ -322,7 +322,7 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
               type="button"
               onClick={doLookup}
               disabled={!canCheckId || nicknameStatus === "checking"}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#d9e56f] px-4 py-2.5 text-sm font-bold text-black transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#ff6b6b] px-4 py-2.5 text-sm font-bold text-black transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
             >
               {nicknameStatus === "checking" ? (
                 <Loader2 className="h-4 w-4 animate-spin" strokeWidth={2.5} />
@@ -376,7 +376,7 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
 
         <div className="mb-3 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#d9e56f]">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#ff6b6b]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/games/diamond.png" alt="" className="h-5 w-5 object-contain" />
             </div>
@@ -384,7 +384,7 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
               Saving Packages
             </h3>
           </div>
-          <span className="rounded-full bg-[#d9e56f] px-3 py-1 text-xs font-extrabold uppercase text-black">
+          <span className="rounded-full bg-[#ff6b6b] px-3 py-1 text-xs font-extrabold uppercase text-black">
             {products.length} items
           </span>
         </div>
@@ -399,8 +399,8 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
                 onClick={() => setSelected(p.id)}
                 className={`relative flex items-center gap-1.5 rounded-lg border-2 p-1.5 text-left transition-all duration-200 active:scale-[0.98] ${
                   isSelected
-                    ? "border-[#b5f01a] bg-[#1b2713] shadow-lg shadow-[#b5f01a]/10"
-                    : "border-[#2a3328] bg-[#141a14] hover:border-[#b5f01a]/50"
+                    ? "border-[#ff3b3b] bg-[#2e1317] shadow-lg shadow-[#ff3b3b]/10"
+                    : "border-[#3a1c20] bg-[#1c1113] hover:border-[#ff3b3b]/50"
                 }`}
               >
                 {p.badge && (
@@ -424,7 +424,7 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
                 </div>
 
                 <div className="min-w-0">
-                  <div className="font-display text-sm sm:text-base font-bold leading-tight text-[#b5f01a]">
+                  <div className="font-display text-sm sm:text-base font-bold leading-tight text-[#ff3b3b]">
                     {format(p.priceUsd)}
                   </div>
                   <div className="truncate text-[11px] sm:text-xs font-bold leading-tight text-fox-text">
@@ -444,9 +444,9 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
 
       {/* Payment method */}
       <div className="fade-up" style={{ animationDelay: "160ms" }}>
-        <div className="card border-white/5 bg-gradient-to-br from-[#272c30] to-[#222d28] p-4 sm:p-5 space-y-3">
+        <div className="card border-white/5 bg-gradient-to-br from-[#2b1519] to-[#211215] p-4 sm:p-5 space-y-3">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#d9e56f] text-black">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#ff6b6b] text-black">
               <Banknote className="h-4 w-4" strokeWidth={2.5} />
             </div>
             <h2 className="font-display text-base sm:text-lg font-bold uppercase tracking-wide">
@@ -457,7 +457,7 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
           <button
             type="button"
             onClick={() => setMethod("BAKONG")}
-            className="flex w-full items-center gap-3 rounded-xl border-2 border-[#b5f01a] bg-[#212d16] p-3 text-left"
+            className="flex w-full items-center gap-3 rounded-xl border-2 border-[#ff3b3b] bg-[#2e1317] p-3 text-left"
           >
             {/* Bakong logo */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -478,15 +478,15 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
 
       {/* Coupon */}
       <div className="fade-up" style={{ animationDelay: "200ms" }}>
-        <div className="card border-white/5 bg-gradient-to-br from-[#272c30] to-[#222d28] p-4 sm:p-5">
+        <div className="card border-white/5 bg-gradient-to-br from-[#2b1519] to-[#211215] p-4 sm:p-5">
           <h3 className="mb-2 font-display text-base font-semibold">Coupon</h3>
 
           {promoApplied ? (
-            <div className="flex items-center gap-3 rounded-xl border border-[#b5f01a]/40 bg-[#b5f01a]/10 p-3">
-              <Tag className="h-4 w-4 shrink-0 text-[#b5f01a]" />
+            <div className="flex items-center gap-3 rounded-xl border border-[#ff3b3b]/40 bg-[#ff3b3b]/10 p-3">
+              <Tag className="h-4 w-4 shrink-0 text-[#ff3b3b]" />
               <div className="min-w-0 flex-1">
-                <span className="font-mono text-sm font-bold text-[#b5f01a]">{promoApplied.code}</span>
-                <span className="ml-2 text-xs text-[#b5f01a]/80">
+                <span className="font-mono text-sm font-bold text-[#ff3b3b]">{promoApplied.code}</span>
+                <span className="ml-2 text-xs text-[#ff3b3b]/80">
                   −{format(promoApplied.discountUsd)} off
                 </span>
               </div>
@@ -505,13 +505,13 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
                 value={promoInput}
                 onChange={(e) => { setPromoInput(e.target.value.toUpperCase()); setPromoError(null); }}
                 placeholder="Enter coupon code"
-                className="min-w-0 flex-1 rounded-xl border border-white/10 bg-black/30 px-4 py-2.5 text-base uppercase text-fox-text placeholder:normal-case placeholder:text-fox-muted focus:outline-none focus:ring-2 focus:ring-[#b5f01a]/30"
+                className="min-w-0 flex-1 rounded-xl border border-white/10 bg-black/30 px-4 py-2.5 text-base uppercase text-fox-text placeholder:normal-case placeholder:text-fox-muted focus:outline-none focus:ring-2 focus:ring-[#ff3b3b]/30"
               />
               <button
                 type="button"
                 onClick={applyPromo}
                 disabled={promoLoading || !promoInput.trim() || !selectedProduct}
-                className="shrink-0 rounded-xl bg-[#b5f01a] px-5 text-sm font-bold text-black transition-opacity disabled:bg-[#3b4d1f] disabled:text-[#9aa389]"
+                className="shrink-0 rounded-xl bg-[#ff3b3b] px-5 text-sm font-bold text-black transition-opacity disabled:bg-[#4d1f24] disabled:text-[#b89aa0]"
               >
                 {promoLoading ? "..." : "Apply"}
               </button>

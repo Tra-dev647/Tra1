@@ -263,7 +263,7 @@ export default function CheckoutPage() {
                   </div>
 
                   <div className="px-6 pb-5 pt-5">
-                    <div className="text-sm text-gray-500">TRATOPUP</div>
+                    <div className="text-sm text-gray-500">LayzzStore</div>
                     <div className="font-display text-4xl font-extrabold leading-tight">
                       {format(order.amountUsd)}
                     </div>

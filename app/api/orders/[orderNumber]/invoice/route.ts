@@ -58,12 +58,12 @@ function renderPdf(order: {
     doc.rect(0, headerH, pageW, 6).fill(BRAND.primary);
 
     // Brand lockup
-    doc.fillColor(BRAND.primary).font("Helvetica-Bold").fontSize(26).text("TRA", marginX, 44);
-    const brandW = doc.widthOfString("TRA");
+    doc.fillColor(BRAND.primary).font("Helvetica-Bold").fontSize(26).text("Layzz", marginX, 44);
+    const brandW = doc.widthOfString("Layzz");
     doc
       .fillColor("#ffffff")
       .fontSize(26)
-      .text("TOPUP", marginX + brandW + 2, 44);
+      .text("Store", marginX + brandW + 2, 44);
     doc
       .fillColor("#cbd5e1")
       .font("Helvetica")

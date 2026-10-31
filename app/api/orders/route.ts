@@ -148,7 +148,7 @@ export async function POST(req: NextRequest) {
         orderNumber: order.orderNumber,
         amountUsd: order.amountUsd,
         method: "BAKONG",
-        note: `TRATOPUP ${game.name} ${product.name}`,
+        note: `LayzzStore ${game.name} ${product.name}`,
       });
       await prisma.order.update({
         where: { id: order.id },

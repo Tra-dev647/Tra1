@@ -13,7 +13,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "TRATOPUP — Fast & Secure Game Top Up",
+  title: "LayzzStore — Fast & Secure Game Top Up",
   description:
     "Top up Mobile Legends, Free Fire, PUBG, Genshin Impact and more. Instant delivery, secure KHQR payment. 24/7 service in Cambodia.",
   keywords: [
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     "Cambodia top up",
   ],
   openGraph: {
-    title: "TRATOPUP — Fast & Secure Game Top Up",
+    title: "LayzzStore — Fast & Secure Game Top Up",
     description: "Instant game top-ups with KHQR · ABA Pay · Wing · ACLEDA",
     type: "website",
   },

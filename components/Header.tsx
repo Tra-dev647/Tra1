@@ -58,7 +58,7 @@ export default function Header() {
           </div>
           <div className="flex flex-col leading-none">
             <span className="font-display text-xl font-bold tracking-tight">
-              TRA<span className="text-fox-primary">TOPUP</span>
+              Layzz<span className="text-fox-primary">Store</span>
             </span>
             <span className="text-[10px] text-fox-muted tracking-widest">
               INSTANT · SECURE · 24/7

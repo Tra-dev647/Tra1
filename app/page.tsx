@@ -41,7 +41,7 @@ export default async function HomePage() {
           <p className="text-fox-muted text-sm">Tap a game to top up instantly</p>
         </div>
 
-        <div className="grid grid-cols-4 gap-2 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
+        <div className="grid grid-cols-3 gap-2.5 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
           {games.map((game, i) => (
             <div
               key={game.id}

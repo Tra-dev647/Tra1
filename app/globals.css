@@ -338,3 +338,4 @@ body {
   overflow-x: hidden;
   overflow-x: clip;
 }
+.fade-up:has(> .game-card) { height: 100%; }

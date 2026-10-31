@@ -63,3 +63,6 @@ export async function placeMobileLegendsTopup(input: {
     }),
   });
 }
+
+// Backward-compatible alias
+export const verifyAccount = verifyGameAccount;

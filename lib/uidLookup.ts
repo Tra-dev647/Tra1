@@ -103,7 +103,7 @@ async function lookupFreeFireLegacy(uid: string): Promise<string | null> {
 
 export async function lookupFreeFire(uid: string): Promise<string | null> {
   // 1) Khmer Topup reseller check (same API key as Mobile Legends)
-  for (const slug of ["free-fire", "freefire"]) {
+  for (const slug of ["free-fire-kh-sg", "freefire-sg", "freefire-sgmy", "freefire-global"]) {
     try {
       const data = await verifyGameAccount(slug, uid);
       const name = pickName(data);

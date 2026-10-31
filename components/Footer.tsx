@@ -8,11 +8,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-fox-primary to-fox-accent">
-                <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 text-black">
-                  <path d="M12 2L3 7v6c0 5 3.5 9 9 10 5.5-1 9-5 9-10V7l-9-5z" stroke="currentColor" strokeWidth="2" />
-                </svg>
-              </div>
+              <img src="/logo.png" alt="LayzzStore" className="h-10 w-10 shrink-0 rounded-xl object-cover" />
               <span className="font-display text-lg font-bold">
                 Layzz<span className="text-fox-primary">Store</span>
               </span>

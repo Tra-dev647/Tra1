@@ -152,6 +152,8 @@ export async function lookupNickname(
       return server ? lookupMobileLegends(uid, server) : null;
     case "free-fire":
       return lookupFreeFire(uid);
+    case "free-fire-bonus":
+      return lookupFreeFireBonus(uid);
     case "genshin-impact":
       return lookupGenshin(uid, server);
     case "honkai-star-rail":
@@ -159,4 +161,16 @@ export async function lookupNickname(
     default:
       return null;
   }
+}
+
+export async function lookupFreeFireBonus(uid: string): Promise<string | null> {
+  try {
+    const data = await verifyGameAccount("free-fire-bonuse", uid);
+    const name = pickName(data);
+    if (name) return name;
+    console.warn("[uidLookup] FF Bonus returned no name, keys:", Object.keys((data as object) ?? {}));
+  } catch (err) {
+    console.warn("[uidLookup] FF Bonus check failed:", err instanceof Error ? err.message : err);
+  }
+  return fetchIsan(`https://api.isan.eu.org/nickname/ff/${encodeURIComponent(uid)}`);
 }

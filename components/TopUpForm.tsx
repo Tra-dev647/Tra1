@@ -6,7 +6,7 @@ import { useCurrency } from "@/lib/currency";
 import { ArrowRight, Lock, Search, UserRoundCheck, AlertCircle, Tag, Loader2, User, HelpCircle, Banknote } from "lucide-react";
 
 // Games that support automatic nickname lookup via /api/lookup-uid
-const LOOKUP_SLUGS = new Set(["mobile-legends", "free-fire", "genshin-impact", "honkai-star-rail"]);
+const LOOKUP_SLUGS = new Set(["mobile-legends", "free-fire-bonus", "free-fire", "genshin-impact", "honkai-star-rail"]);
 // MLBB & similar games that use a separate "Zone ID" instead of a server dropdown
 const ZONE_ID_SLUGS = new Set(["mobile-legends"]);
 

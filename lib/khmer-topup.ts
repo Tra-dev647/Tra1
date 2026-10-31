@@ -11,6 +11,7 @@ export async function khmerTopupRequest(path: string, init: RequestInit = {}) {
     ...init,
     headers: {
       Authorization: `Bearer ${apiKey()}`,
+      "X-API-Key": apiKey(),
       "Content-Type": "application/json",
       Accept: "application/json",
       ...init.headers,

@@ -306,7 +306,7 @@ function OrderPageInner() {
 
             {order.status === "FAILED" && (
               <div className="mx-5 sm:mx-6 mb-5 sm:mb-6 rounded-lg border border-red-500/40 bg-red-500/10 p-4 text-sm text-red-300">
-                Something went wrong. Please contact <strong>@rithtopup</strong> on Telegram with your order number.
+                Something went wrong. Please contact <strong>@Tradev14</strong> on Telegram with your order number.
               </div>
             )}
 

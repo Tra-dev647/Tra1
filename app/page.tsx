@@ -135,7 +135,7 @@ export default async function HomePage() {
             { q: "How long does delivery take?", a: "Instant — seconds after payment confirms. Up to 5 minutes during peak hours." },
             { q: "Is this safe for my account?", a: "Yes. We only need your UID — never your password. Orders go through licensed distributors." },
             { q: "What payment methods?", a: "KHQR supported (ABA, Wing, etc). More methods coming soon." },
-            { q: "Wrong UID?", a: "Contact us on Telegram @rithtopup immediately. We can fix it before delivery." },
+            { q: "Wrong UID?", a: "Contact us on Telegram @Tradev14 immediately. We can fix it before delivery." },
             { q: "Do I get in-game bonuses?", a: "Yes! All first-time and event bonuses apply — same as topping up in-game." },
           ].map((item, i) => (
             <details

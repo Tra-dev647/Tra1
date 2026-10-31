@@ -45,7 +45,7 @@ export default function Footer() {
             {
               heading: "Support",
               items: [
-                { label: "Telegram: @rithtopup", href: "#" },
+                { label: "Telegram: @Tradev14", href: "https://t.me/Tradev14" },
                 { label: "24/7 Service", href: "#" },
               ],
             },

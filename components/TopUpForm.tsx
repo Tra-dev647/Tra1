@@ -401,7 +401,7 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
                   <img
                     src={p.imageUrl || "/games/diamond.png"}
                     alt=""
-                    className="h-6 w-6 sm:h-8 sm:w-8 object-contain"
+                    className="h-10 w-10 sm:h-12 sm:w-12 object-contain"
                   />
                 </div>
 

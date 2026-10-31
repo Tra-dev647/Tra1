@@ -55,6 +55,24 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
   const [promoLoading, setPromoLoading] = useState(false);
   const [promoError, setPromoError] = useState<string | null>(null);
 
+  // ── Remember Player ID / Zone per game on this device ──
+  const storageKey = `topup:${game.slug}`;
+  const restoredRef = useRef(false);
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
+      if (saved?.uid) setUid(String(saved.uid));
+      if (saved?.serverId) setServerId(String(saved.serverId));
+    } catch {}
+    restoredRef.current = true;
+  }, [storageKey]);
+  useEffect(() => {
+    if (!restoredRef.current || !uid) return;
+    try {
+      localStorage.setItem(storageKey, JSON.stringify({ uid, serverId }));
+    } catch {}
+  }, [uid, serverId, storageKey]);
+
   // ── Nickname auto-lookup (debounced 800 ms) ──
   const supportsLookup = LOOKUP_SLUGS.has(game.slug);
   const useZoneField = ZONE_ID_SLUGS.has(game.slug);

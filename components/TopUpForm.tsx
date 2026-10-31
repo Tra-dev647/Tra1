@@ -371,7 +371,7 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
           </span>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 sm:gap-2">
           {products.map((p) => {
             const isSelected = selected === p.id;
             return (
@@ -379,7 +379,7 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
                 type="button"
                 key={p.id}
                 onClick={() => setSelected(p.id)}
-                className={`relative flex items-center gap-2 rounded-xl border-2 p-2 text-left transition-all duration-200 active:scale-[0.98] ${
+                className={`relative flex items-center gap-1.5 rounded-lg border-2 p-1.5 text-left transition-all duration-200 active:scale-[0.98] ${
                   isSelected
                     ? "border-[#b5f01a] bg-[#1b2713] shadow-lg shadow-[#b5f01a]/10"
                     : "border-[#2a3328] bg-[#141a14] hover:border-[#b5f01a]/50"
@@ -396,26 +396,26 @@ export default function TopUpForm({ game, products }: { game: Game; products: Pr
                   </div>
                 )}
 
-                <div className="flex h-12 w-12 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-lg bg-white/5">
+                <div className="flex h-9 w-9 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-md bg-white/5">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={p.imageUrl || "/games/diamond.png"}
                     alt=""
-                    className="h-10 w-10 sm:h-12 sm:w-12 object-contain"
+                    className="h-6 w-6 sm:h-8 sm:w-8 object-contain"
                   />
                 </div>
 
                 <div className="min-w-0">
-                  <div className="font-display text-base sm:text-lg font-bold leading-tight text-[#b5f01a]">
+                  <div className="font-display text-sm sm:text-base font-bold leading-tight text-[#b5f01a]">
                     {format(p.priceUsd)}
                   </div>
-                  <div className="truncate text-xs sm:text-sm font-bold leading-tight text-fox-text">
+                  <div className="truncate text-[11px] sm:text-xs font-bold leading-tight text-fox-text">
                     {p.amount > 0
                       ? `${p.amount.toLocaleString()} ${game.currencyName}`
                       : p.name}
                   </div>
                   {p.amount > 0 && p.bonus > 0 && (
-                    <div className="text-xs font-semibold text-fox-accent">+ {p.bonus} bonus</div>
+                    <div className="text-[10px] font-semibold text-fox-accent">+ {p.bonus} bonus</div>
                   )}
                 </div>
               </button>

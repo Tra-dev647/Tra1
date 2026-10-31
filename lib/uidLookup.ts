@@ -5,7 +5,7 @@
  * Every function has a 5 s timeout and catches all errors → returns null.
  */
 
-import { verifyMobileLegendsAccount } from "@/lib/khmer-topup";
+import { verifyMobileLegendsAccount, verifyAccount } from "@/lib/khmer-topup";
 
 // ---------- helpers ----------
 
@@ -80,6 +80,16 @@ export async function lookupMobileLegends(
 }
 
 export async function lookupFreeFire(uid: string): Promise<string | null> {
+  // 1) Khmer Topup reseller check (slug "free-fire"); falls through if unsupported
+  try {
+    const data = await verifyAccount("free-fire", uid);
+    const name = pickName(data);
+    if (name) return name;
+    console.warn("[uidLookup] Khmer Topup free-fire check returned no name, keys:", Object.keys((data as object) ?? {}));
+  } catch (err) {
+    console.warn("[uidLookup] Khmer Topup free-fire check failed:", err instanceof Error ? err.message : err);
+  }
+  // 2) Fallback: CamRapid validator
   // CamRapidSecure FreeFire validator
   // GET https://v1.camrapidx.com/validate_user/FreeFire_LevelUpPass.php?UserID=<uid>
   // Returns: { status: "APPROVED", username: "PlayerName#", ... }

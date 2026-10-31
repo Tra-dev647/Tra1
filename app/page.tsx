@@ -35,13 +35,13 @@ export default async function HomePage() {
       <RecentOrdersTicker />
 
       {/* Games grid */}
-      <section id="games" className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="text-center mb-10">
-          <h2 className="font-display text-3xl sm:text-4xl font-bold mb-2">Choose Your Game</h2>
+      <section id="games" className="relative mx-auto max-w-7xl px-3 pt-4 pb-8 sm:px-6 sm:py-16 lg:px-8">
+        <div className="text-center mb-4 sm:mb-10">
+          <h2 className="font-display text-2xl sm:text-4xl font-bold mb-1 sm:mb-2">Choose Your Game</h2>
           <p className="text-fox-muted text-sm">Tap a game to top up instantly</p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+        <div className="grid grid-cols-4 gap-2 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
           {games.map((game, i) => (
             <div
               key={game.id}

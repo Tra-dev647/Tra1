@@ -127,7 +127,7 @@ export async function createOrder(data: CreateOrderInput, ctx: CreateOrderContex
       orderNumber: order.orderNumber,
       amountUsd: order.amountUsd,
       method: "BAKONG",
-      note: `TRATOPUP ${game.name} ${product.name}`,
+      note: `LayzzStore ${game.name} ${product.name}`,
     });
     const updated = await prisma.order.update({
       where: { id: order.id },

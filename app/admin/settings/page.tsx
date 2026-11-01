@@ -54,7 +54,7 @@ export default function AdminSettingsPage() {
         <div>
           <label className="label">Store Currency</label>
           <input className="input" type="number" value={form.exchangeRate || 4100} onChange={(e) => setForm({ ...form, exchangeRate: e.target.value })} />
-          <p className="text-xs text-fox-muted mt-1">TRATOPUP accepts and displays USD only.</p>
+          <p className="text-xs text-fox-muted mt-1">LayzzStore accepts and displays USD only.</p>
         </div>
 
         <div>

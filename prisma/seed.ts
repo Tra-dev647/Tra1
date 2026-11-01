@@ -195,7 +195,7 @@ async function main() {
   ];
 
   // Which games to seed. Override with SEED_GAMES="mobile-legends,free-fire".
-  const wanted = (process.env.SEED_GAMES || "free-fire,mobile-legends,level-up-pass").split(",").map((s) => s.trim());
+  const wanted = (process.env.SEED_GAMES || "mobile-legends").split(",").map((s) => s.trim());
   const selectedGames = games.filter((g) => wanted.includes(g.slug));
   for (const g of selectedGames) {
     const { products, ...gameData } = g;

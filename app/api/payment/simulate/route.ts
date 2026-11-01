@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
   const html = `<!doctype html>
 <html>
 <head>
-<title>Payment Simulated — TRATOPUP</title>
+<title>Payment Simulated — LayzzStore</title>
 <meta http-equiv="refresh" content="3;url=${baseUrl}/order?number=${orderNumber}">
 <style>
   body { font-family: system-ui; background: #0A0A0F; color: #F5F5F7; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }

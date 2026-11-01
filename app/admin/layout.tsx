@@ -26,14 +26,10 @@ export default async function AdminLayout({
       <aside className="w-60 border-r border-fox-border bg-fox-surface flex flex-col">
         <Link href="/admin" className="p-6 border-b border-fox-border">
           <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-fox-primary to-fox-accent flex items-center justify-center">
-              <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 text-black">
-                <path d="M12 2L3 7v6c0 5 3.5 9 9 10 5.5-1 9-5 9-10V7l-9-5z" stroke="currentColor" strokeWidth="2" />
-              </svg>
-            </div>
+            <img src="/logo.png" alt="LayzzStore" className="h-10 w-10 shrink-0 rounded-xl object-cover" />
             <div>
               <div className="font-display font-bold text-sm">
-                TRA<span className="text-fox-primary">TOPUP</span>
+                Layzz<span className="text-fox-primary">Store</span>
               </div>
               <div className="text-[10px] text-fox-muted uppercase tracking-widest">
                 Admin Panel

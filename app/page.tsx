@@ -35,13 +35,13 @@ export default async function HomePage() {
       <RecentOrdersTicker />
 
       {/* Games grid */}
-      <section id="games" className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="text-center mb-10">
-          <h2 className="font-display text-3xl sm:text-4xl font-bold mb-2">Choose Your Game</h2>
+      <section id="games" className="relative mx-auto max-w-7xl px-3 pt-4 pb-8 sm:px-6 sm:py-16 lg:px-8">
+        <div className="text-center mb-4 sm:mb-10">
+          <h2 className="font-display text-2xl sm:text-4xl font-bold mb-1 sm:mb-2">Choose Your Game</h2>
           <p className="text-fox-muted text-sm">Tap a game to top up instantly</p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+        <div className="grid grid-cols-3 gap-2.5 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
           {games.map((game, i) => (
             <div
               key={game.id}
@@ -71,13 +71,13 @@ export default async function HomePage() {
       </section>
 
       {/* How it works — 3 simple steps */}
-      <section className="relative mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="text-center mb-10">
+      <section className="relative mx-auto max-w-5xl px-4 py-8 sm:py-16 sm:px-6 lg:px-8">
+        <div className="text-center mb-6 sm:mb-10">
           <h2 className="font-display text-3xl sm:text-4xl font-bold mb-2">How It Works</h2>
           <p className="text-fox-muted text-sm">Three steps. Under a minute.</p>
         </div>
 
-        <div className="grid sm:grid-cols-3 gap-5">
+        <div className="grid grid-cols-3 gap-2 sm:gap-5">
           {[
             { step: "01", Icon: Gamepad2, title: "Pick a Game", desc: "Choose from our catalog of popular games." },
             { step: "02", Icon: UserRoundCheck, title: "Enter UID", desc: "Just your player ID — no password needed." },
@@ -85,23 +85,23 @@ export default async function HomePage() {
           ].map((s, i) => (
             <div
               key={s.step}
-              className="group relative rounded-2xl border border-fox-border/60 bg-fox-card/60 p-6 text-center transition-all duration-500 hover:border-fox-primary/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-fox-primary/10 fade-up"
+              className="group relative rounded-2xl border border-fox-border/60 bg-fox-card/60 p-3 sm:p-6 text-center transition-all duration-500 hover:border-fox-primary/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-fox-primary/10 fade-up"
               style={{ animationDelay: `${i * 100}ms` }}
             >
-              <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-fox-primary/20 to-fox-accent/10 border border-fox-primary/20 text-fox-primary mb-4 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
-                <s.Icon className="h-6 w-6" strokeWidth={2} />
+              <div className="inline-flex h-9 w-9 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-gradient-to-br from-fox-primary/20 to-fox-accent/10 border border-fox-primary/20 text-fox-primary mb-2 sm:mb-4 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                <s.Icon className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2} />
               </div>
-              <div className="text-[10px] font-bold text-fox-primary tracking-widest mb-2">STEP {s.step}</div>
-              <h3 className="font-display text-lg font-bold mb-1">{s.title}</h3>
-              <p className="text-sm text-fox-muted">{s.desc}</p>
+              <div className="text-[9px] sm:text-[10px] font-bold text-fox-primary tracking-widest mb-1 sm:mb-2">STEP {s.step}</div>
+              <h3 className="font-display text-xs sm:text-lg font-bold mb-1 leading-tight">{s.title}</h3>
+              <p className="text-[10px] sm:text-sm text-fox-muted leading-snug">{s.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* Features — compact row */}
-      <section className="relative mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid sm:grid-cols-3 gap-5">
+      <section className="relative mx-auto max-w-5xl px-4 py-6 sm:py-16 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-3 gap-2 sm:gap-5">
           {[
             { Icon: Zap, title: "Instant Delivery", desc: "Credits arrive in seconds, 24/7." },
             { Icon: ShieldCheck, title: "100% Secure", desc: "Only your UID needed. No passwords." },
@@ -109,15 +109,15 @@ export default async function HomePage() {
           ].map((f, i) => (
             <div
               key={f.title}
-              className="group flex items-start gap-4 rounded-2xl border border-fox-border/40 bg-fox-surface/40 p-5 transition-all duration-500 hover:border-fox-primary/40 hover:bg-fox-surface/70 fade-up"
+              className="group flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-2 sm:gap-4 rounded-2xl border border-fox-border/40 bg-fox-surface/40 p-3 sm:p-5 transition-all duration-500 hover:border-fox-primary/40 hover:bg-fox-surface/70 fade-up"
               style={{ animationDelay: `${i * 80}ms` }}
             >
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-fox-primary/10 text-fox-primary transition-transform duration-500 group-hover:scale-110">
                 <f.Icon className="h-5 w-5" strokeWidth={2} />
               </div>
               <div>
-                <h3 className="font-display font-bold text-sm mb-1">{f.title}</h3>
-                <p className="text-xs text-fox-muted leading-relaxed">{f.desc}</p>
+                <h3 className="font-display font-bold text-[11px] sm:text-sm mb-1 leading-tight">{f.title}</h3>
+                <p className="text-[10px] sm:text-xs text-fox-muted leading-snug sm:leading-relaxed">{f.desc}</p>
               </div>
             </div>
           ))}
@@ -135,7 +135,7 @@ export default async function HomePage() {
             { q: "How long does delivery take?", a: "Instant — seconds after payment confirms. Up to 5 minutes during peak hours." },
             { q: "Is this safe for my account?", a: "Yes. We only need your UID — never your password. Orders go through licensed distributors." },
             { q: "What payment methods?", a: "KHQR supported (ABA, Wing, etc). More methods coming soon." },
-            { q: "Wrong UID?", a: "Contact us on Telegram @rithtopup immediately. We can fix it before delivery." },
+            { q: "Wrong UID?", a: "Contact us on Telegram @Tradev14 immediately. We can fix it before delivery." },
             { q: "Do I get in-game bonuses?", a: "Yes! All first-time and event bonuses apply — same as topping up in-game." },
           ].map((item, i) => (
             <details

@@ -8,13 +8,9 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-fox-primary to-fox-accent">
-                <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 text-black">
-                  <path d="M12 2L3 7v6c0 5 3.5 9 9 10 5.5-1 9-5 9-10V7l-9-5z" stroke="currentColor" strokeWidth="2" />
-                </svg>
-              </div>
+              <img src="/logo.png" alt="LayzzStore" className="h-10 w-10 shrink-0 rounded-xl object-cover" />
               <span className="font-display text-lg font-bold">
-                TRA<span className="text-fox-primary">TOPUP</span>
+                Layzz<span className="text-fox-primary">Store</span>
               </span>
             </div>
             <p className="text-xs text-fox-muted leading-relaxed">
@@ -45,7 +41,7 @@ export default function Footer() {
             {
               heading: "Support",
               items: [
-                { label: "Telegram: @rithtopup", href: "#" },
+                { label: "Telegram: @Tradev14", href: "https://t.me/Tradev14" },
                 { label: "24/7 Service", href: "#" },
               ],
             },
@@ -66,7 +62,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 pt-6 border-t border-fox-border/40 flex flex-col sm:flex-row justify-between items-center gap-3 text-[11px] text-fox-muted">
-          <p>&copy; {new Date().getFullYear()} TRATOPUP. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} LayzzStore. All rights reserved.</p>
           <p>Not affiliated with Moonton, Garena, Tencent or HoYoverse.</p>
         </div>
       </div>

@@ -48,11 +48,13 @@ async function setSession(chatId: string, step: string, data: SessionData = {}) 
 // ───────────────────────── views ─────────────────────────
 async function showMenu(chatId: string, messageId?: number) {
   const games = await prisma.game.findMany({ where: { active: true }, orderBy: [{ sortOrder: "asc" }, { name: "asc" }] });
+  const st = await prisma.settings.findUnique({ where: { id: 1 } }).catch(() => null);
+  const site = escapeHtml(st?.siteName || "TRATOPUP");
   const kb: Keyboard = games.map((g) => [{ text: `🎮 ${g.name}`, callback_data: `g:${g.slug}` }]);
   kb.push([{ text: "📦 ការបញ្ជាទិញរបស់ខ្ញុំ", callback_data: "o" }]);
   const text = games.length
-    ? "👋 សូមស្វាគមន៍មកកាន់ <b>TRATOPUP</b>\nជ្រើសរើសហ្គេមដែលអ្នកចង់ Top Up៖"
-    : "👋 សូមស្វាគមន៍មកកាន់ <b>TRATOPUP</b>\nមិនទាន់មានហ្គេមសម្រាប់លក់ទេ។";
+    ? `👋 សូមស្វាគមន៍មកកាន់ <b>${site}</b>\nជ្រើសរើសហ្គេមដែលអ្នកចង់ Top Up៖`
+    : `👋 សូមស្វាគមន៍មកកាន់ <b>${site}</b>\nមិនទាន់មានហ្គេមសម្រាប់លក់ទេ។`;
   await showMessage(chatId, messageId, text, kb);
 }
 

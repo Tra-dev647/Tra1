@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "FAQ — TRATOPUP",
+  title: "FAQ — LayzzStore",
   description: "Frequently asked questions about game top-ups, KHQR payment, delivery times and more.",
 };
 

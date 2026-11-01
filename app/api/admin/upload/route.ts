@@ -8,7 +8,7 @@ import crypto from "crypto";
 export const runtime = "nodejs";
 
 // Max upload size: 5 MB
-const MAX_BYTES = 5 * 1024 * 1024;
+const MAX_BYTES = 4 * 1024 * 1024;
 
 // Strict whitelist of allowed image types + their file extensions.
 const ALLOWED: Record<string, string> = {

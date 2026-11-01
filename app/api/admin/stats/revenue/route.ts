@@ -1,3 +1,4 @@
+import { adminGuard } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
@@ -8,6 +9,9 @@ import { NextRequest, NextResponse } from "next/server";
  * Returns daily buckets and the top-5 products by revenue.
  */
 export async function GET(req: NextRequest) {
+  const denied = await adminGuard();
+  if (denied) return denied;
+
   const days = Math.min(365, Math.max(1, parseInt(req.nextUrl.searchParams.get("days") || "30")));
   const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
 

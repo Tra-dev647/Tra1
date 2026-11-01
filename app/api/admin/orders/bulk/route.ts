@@ -1,3 +1,4 @@
+import { adminGuard } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
@@ -14,6 +15,9 @@ import { NextRequest, NextResponse } from "next/server";
  * operation and we don't want it triggered by accident or by a bug in a client.
  */
 export async function DELETE(req: NextRequest) {
+  const denied = await adminGuard();
+  if (denied) return denied;
+
   const body = await req.json().catch(() => ({}));
   if (body.confirm !== "DELETE") {
     return NextResponse.json(

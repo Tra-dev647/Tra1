@@ -1,3 +1,4 @@
+import { getClientIp } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
@@ -14,8 +15,8 @@ const bodySchema = z.object({
 export async function POST(req: NextRequest) {
   // ── rate limit: 10 req / min per IP ──
   const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
-  if (!checkRateLimit(`uid-lookup:${ip}`, 10, 60_000)) {
+    getClientIp(req.headers);
+  if (!(await checkRateLimit(`uid-lookup:${ip}`, 10, 60_000))) {
     return NextResponse.json(
       { nickname: null, verified: false, error: "Too many requests — try again shortly" },
       { status: 429 },

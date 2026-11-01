@@ -1,3 +1,4 @@
+import { adminGuard } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
@@ -33,6 +34,9 @@ export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const denied = await adminGuard();
+  if (denied) return denied;
+
   const game = await prisma.game.findUnique({
     where: { id: (await params).id },
     include: {
@@ -47,6 +51,9 @@ export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const denied = await adminGuard();
+  if (denied) return denied;
+
   const body = await req.json().catch(() => ({}));
   const parsed = updateSchema.safeParse(body);
   if (!parsed.success) {
@@ -63,6 +70,9 @@ export async function DELETE(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const denied = await adminGuard();
+  if (denied) return denied;
+
   await prisma.game.delete({ where: { id: (await params).id } });
   return NextResponse.json({ ok: true });
 }

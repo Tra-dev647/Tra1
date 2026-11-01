@@ -11,7 +11,6 @@ export async function khmerTopupRequest(path: string, init: RequestInit = {}) {
     ...init,
     headers: {
       Authorization: `Bearer ${apiKey()}`,
-      "X-API-Key": apiKey(),
       "Content-Type": "application/json",
       Accept: "application/json",
       ...init.headers,
@@ -29,13 +28,6 @@ export async function getMobileLegendsCatalog() {
   const game = (data.games || []).find((g: any) => g.slug === "mobile-legends");
   if (!game) throw new Error("Mobile Legends is not available in Khmer Topup catalog");
   return game;
-}
-
-// Generic account check for any game slug the reseller supports (e.g. "free-fire").
-export async function verifyGameAccount(slug: string, playerId: string, serverId?: string) {
-  const query = new URLSearchParams({ slug, player_id: playerId });
-  if (serverId) query.set("server_id", serverId);
-  return khmerTopupRequest(`/check?${query.toString()}`);
 }
 
 export async function verifyMobileLegendsAccount(playerId: string, serverId: string) {
@@ -64,6 +56,3 @@ export async function placeMobileLegendsTopup(input: {
     }),
   });
 }
-
-// Backward-compatible alias
-export const verifyAccount = verifyGameAccount;

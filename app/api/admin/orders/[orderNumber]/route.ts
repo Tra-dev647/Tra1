@@ -1,8 +1,10 @@
+import { adminGuard } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
 import { writeAudit } from "@/lib/audit";
 import { notifyTelegram, escapeHtml } from "@/lib/telegram";
+import { notifyCustomer } from "@/lib/telegramShop";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -24,6 +26,9 @@ export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ orderNumber: string }> }
 ) {
+  const denied = await adminGuard();
+  if (denied) return denied;
+
   const order = await prisma.order.findUnique({
     where: { orderNumber: (await params).orderNumber },
     include: {
@@ -39,6 +44,9 @@ export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ orderNumber: string }> }
 ) {
+  const denied = await adminGuard();
+  if (denied) return denied;
+
   const body = await req.json().catch(() => ({}));
   const parsed = updateSchema.safeParse(body);
   if (!parsed.success) {
@@ -77,6 +85,15 @@ export async function PATCH(
           `UID: <code>${escapeHtml(order.playerUid)}</code>`
       );
     }
+    // Tell customers who ordered through the Telegram shop bot.
+    const customerMsg: Record<string, string> = {
+      DELIVERED: `🎉 ការបញ្ជាទិញ <b>${escapeHtml(order.orderNumber)}</b> បាន Top Up ជោគជ័យ! សូមអរគុណ។`,
+      FAILED: `❌ ការបញ្ជាទិញ <b>${escapeHtml(order.orderNumber)}</b> បរាជ័យ។ សូមទាក់ទង Admin។`,
+      REFUNDED: `↩️ ការបញ្ជាទិញ <b>${escapeHtml(order.orderNumber)}</b> ត្រូវបានសង់ប្រាក់វិញ។`,
+      CANCELLED: `🚫 ការបញ្ជាទិញ <b>${escapeHtml(order.orderNumber)}</b> ត្រូវបានលុបចោល។`,
+    };
+    const m = customerMsg[parsed.data.status];
+    if (m) await notifyCustomer(order.telegramChatId, m);
   } else if (parsed.data.deliveryNote || parsed.data.failureReason) {
     await writeAudit({
       action: "order.note",

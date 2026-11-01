@@ -13,28 +13,28 @@ module.exports = {
       },
       colors: {
         fox: {
-          bg: "#0e0809",
-          surface: "#150d0f",
-          card: "#1c1113",
-          border: "#3a1c20",
-          primary: "#ff3b3b",
-          accent: "#ff6b6b",
-          gold: "#ffb3a7",
+          bg: "#121411",
+          surface: "#181B17",
+          card: "#1B1F1A",
+          border: "#2A3328",
+          primary: "#B5F01A",
+          accent: "#D9E56F",
+          gold: "#E8F59A",
           text: "#F5F5F7",
           muted: "#8B8B9E",
         },
       },
       boxShadow: {
-        "glow-sm": "0 0 12px rgba(255, 59, 59, 0.35)",
-        "glow": "0 0 30px rgba(255, 59, 59, 0.45)",
-        "glow-lg": "0 0 60px rgba(255, 59, 59, 0.55)",
-        "inner-glow": "inset 0 0 24px rgba(255, 59, 59, 0.25)",
+        "glow-sm": "0 0 12px rgba(181, 240, 26, 0.35)",
+        "glow": "0 0 30px rgba(181, 240, 26, 0.45)",
+        "glow-lg": "0 0 60px rgba(181, 240, 26, 0.55)",
+        "inner-glow": "inset 0 0 24px rgba(181, 240, 26, 0.25)",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "aurora":
-          "radial-gradient(60% 60% at 20% 20%, rgba(255, 59, 59,0.35) 0%, transparent 60%), radial-gradient(55% 55% at 80% 30%, rgba(255, 107, 107,0.28) 0%, transparent 60%), radial-gradient(50% 50% at 50% 90%, rgba(255, 179, 167,0.22) 0%, transparent 60%)",
+          "radial-gradient(60% 60% at 20% 20%, rgba(181, 240, 26,0.35) 0%, transparent 60%), radial-gradient(55% 55% at 80% 30%, rgba(217, 229, 111,0.28) 0%, transparent 60%), radial-gradient(50% 50% at 50% 90%, rgba(232, 245, 154,0.22) 0%, transparent 60%)",
       },
       animation: {
         glow: "glow 2s ease-in-out infinite alternate",
@@ -57,8 +57,8 @@ module.exports = {
       },
       keyframes: {
         glow: {
-          "0%": { boxShadow: "0 0 20px rgba(255, 59, 59, 0.3)" },
-          "100%": { boxShadow: "0 0 40px rgba(255, 59, 59, 0.6)" },
+          "0%": { boxShadow: "0 0 20px rgba(181, 240, 26, 0.3)" },
+          "100%": { boxShadow: "0 0 40px rgba(181, 240, 26, 0.6)" },
         },
         float: {
           "0%, 100%": { transform: "translateY(0px)" },

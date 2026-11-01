@@ -90,7 +90,6 @@ export default async function GamePage({ params }: { params: Promise<{ slug: str
             bonus: p.bonus,
             priceUsd: p.priceUsd,
             badge: p.badge,
-            imageUrl: p.imageUrl,
           }))}
         />
       </main>

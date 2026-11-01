@@ -37,4 +37,7 @@ yarn-error.log*
 # User-uploaded images (admin panel)
 /public/uploads/*
 !/public/uploads/.gitkeep
+
+# Local patch files
+*.patch
 Tra1/

@@ -1,3 +1,4 @@
+import { adminGuard } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
@@ -11,6 +12,9 @@ function csvCell(v: unknown): string {
 }
 
 export async function GET(req: NextRequest) {
+  const denied = await adminGuard();
+  if (denied) return denied;
+
   const { searchParams } = req.nextUrl;
   const status = searchParams.get("status") || undefined;
   const q = searchParams.get("q")?.trim();

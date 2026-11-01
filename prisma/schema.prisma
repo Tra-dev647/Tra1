@@ -1,6 +1,4 @@
-// Prisma schema for RITHTOPUP
-// Local dev: sqlite (file:./dev.db)
-// Production (Vercel/Neon): change provider to "postgresql" and run `prisma db push`
+// Prisma schema for TRATOPUP (PostgreSQL / Neon). Run `npx prisma db push` after changes.
 generator client {
   provider      = "prisma-client-js"
   // Vercel lambdas run on Amazon Linux 2023 (openssl 3.0). Without this the
@@ -90,7 +88,9 @@ model Order {
   promoCodeId    String?
   promoCode      PromoCode? @relation(fields: [promoCodeId], references: [id])
   discountUsd    Float      @default(0)
+  telegramChatId String?    // set when the order was placed through the Telegram shop bot
 
+  @@index([telegramChatId])
   @@index([status])
   @@index([createdAt])
   @@index([customerEmail])
@@ -198,4 +198,12 @@ model BlockedIdentity {
   createdAt DateTime @default(now())
 
   @@unique([type, value])
+}
+
+// Conversation state for the Telegram shop bot (one row per chat).
+model TelegramSession {
+  chatId    String   @id
+  step      String   @default("idle") // idle | uid | server | confirm
+  data      String   @default("{}")   // JSON: { productId, uid, serverId, nickname }
+  updatedAt DateTime @updatedAt
 }

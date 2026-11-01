@@ -1,3 +1,4 @@
+import { adminGuard } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
@@ -31,6 +32,9 @@ const gameSchema = z.object({
 });
 
 export async function GET() {
+  const denied = await adminGuard();
+  if (denied) return denied;
+
   const games = await prisma.game.findMany({
     orderBy: { sortOrder: "asc" },
     include: { _count: { select: { products: true, orders: true } } },
@@ -39,6 +43,9 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+  const denied = await adminGuard();
+  if (denied) return denied;
+
   const body = await req.json().catch(() => ({}));
   const parsed = gameSchema.safeParse(body);
   if (!parsed.success) {

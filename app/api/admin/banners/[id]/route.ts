@@ -1,3 +1,4 @@
+import { adminGuard } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
@@ -19,6 +20,9 @@ export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const denied = await adminGuard();
+  if (denied) return denied;
+
   const body = await req.json().catch(() => ({}));
   const parsed = schema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "Invalid" }, { status: 400 });
@@ -31,6 +35,9 @@ export async function DELETE(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const denied = await adminGuard();
+  if (denied) return denied;
+
   await prisma.heroBanner.delete({ where: { id: (await params).id } });
   await writeAudit({ action: "banner.delete", targetType: "banner", targetId: (await params).id });
   return NextResponse.json({ ok: true });

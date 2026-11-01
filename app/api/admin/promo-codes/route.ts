@@ -1,3 +1,4 @@
+import { adminGuard } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
@@ -15,6 +16,9 @@ const createSchema = z.object({
 });
 
 export async function GET() {
+  const denied = await adminGuard();
+  if (denied) return denied;
+
   const codes = await prisma.promoCode.findMany({
     orderBy: { createdAt: "desc" },
   });
@@ -22,6 +26,9 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+  const denied = await adminGuard();
+  if (denied) return denied;
+
   try {
     const body = await req.json();
     const parsed = createSchema.safeParse(body);

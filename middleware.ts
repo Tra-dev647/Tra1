@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
 
-const SESSION_COOKIE = "rithtopup_admin";
+const SESSION_COOKIE = "tratopup_admin";
 
 function getSecret() {
   const secret = process.env.JWT_SECRET;
@@ -13,13 +13,15 @@ function getSecret() {
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Only guard /admin/* (except /admin/login itself)
-  if (!pathname.startsWith("/admin") || pathname === "/admin/login") {
+  // Guard /admin/* pages AND /api/admin/* endpoints.
+  const isAdminPage = pathname === "/admin" || pathname.startsWith("/admin/");
+  const isAdminApi = pathname === "/api/admin" || pathname.startsWith("/api/admin/");
+  if (!isAdminPage && !isAdminApi) {
     return NextResponse.next();
   }
 
-  // Also skip auth endpoints
-  if (pathname.startsWith("/api/admin/auth")) {
+  // Public: login page and the login/logout endpoint
+  if (pathname === "/admin/login" || pathname.startsWith("/api/admin/auth")) {
     return NextResponse.next();
   }
 

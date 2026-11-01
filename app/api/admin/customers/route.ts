@@ -1,3 +1,4 @@
+import { adminGuard } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
@@ -8,6 +9,9 @@ import { NextResponse } from "next/server";
  * (whichever is present) and returns lifetime value + order counts.
  */
 export async function GET() {
+  const denied = await adminGuard();
+  if (denied) return denied;
+
   // Pull raw orders (bounded) and aggregate in memory — SQLite friendly.
   const orders = await prisma.order.findMany({
     take: 5000,

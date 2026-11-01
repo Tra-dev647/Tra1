@@ -13,8 +13,8 @@ export async function GET(req: NextRequest) {
   const orderNumber = req.nextUrl.searchParams.get("order");
   const ref = req.nextUrl.searchParams.get("ref");
 
-  if (!orderNumber) {
-    return NextResponse.json({ error: "Missing order" }, { status: 400 });
+  if (!orderNumber || !/^[A-Z0-9-]{5,40}$/.test(orderNumber)) {
+    return NextResponse.json({ error: "Missing or invalid order" }, { status: 400 });
   }
 
   const order = await prisma.order.findUnique({ where: { orderNumber } });
@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
   const html = `<!doctype html>
 <html>
 <head>
-<title>Payment Simulated — LayzzStore</title>
+<title>Payment Simulated — TRATOPUP</title>
 <meta http-equiv="refresh" content="3;url=${baseUrl}/order?number=${orderNumber}">
 <style>
   body { font-family: system-ui; background: #0A0A0F; color: #F5F5F7; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }

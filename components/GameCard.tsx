@@ -13,7 +13,7 @@ export default function GameCard({ slug, name, publisher, currencyName, imageUrl
   return (
     <Link
       href={`/games/${slug}`}
-      className="game-card group relative block h-full rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-fox-primary/60"
+      className="game-card group relative block rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-fox-primary/60"
     >
       {/* Animated glow border */}
       <span
@@ -21,9 +21,9 @@ export default function GameCard({ slug, name, publisher, currencyName, imageUrl
         aria-hidden
       />
 
-      <div className="relative flex h-full flex-col items-center rounded-2xl border border-fox-border/60 bg-fox-card p-2.5 sm:p-3 transition-all duration-500 group-hover:border-transparent group-hover:bg-fox-card/90">
+      <div className="relative flex flex-col items-center rounded-2xl border border-fox-border/60 bg-fox-card p-4 sm:p-5 transition-all duration-500 group-hover:border-transparent group-hover:bg-fox-card/90">
         {/* Game image */}
-        <div className="relative w-full aspect-[5/4] overflow-hidden rounded-xl bg-fox-surface mb-2.5">
+        <div className="relative w-full aspect-square overflow-hidden rounded-xl bg-fox-surface mb-4">
           <div
             className="absolute inset-0 bg-gradient-to-br from-fox-primary/20 to-fox-accent/10 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110"
             style={imageUrl ? { backgroundImage: `url(${imageUrl})` } : {}}
@@ -45,12 +45,12 @@ export default function GameCard({ slug, name, publisher, currencyName, imageUrl
         </div>
 
         {/* Game name */}
-        <h3 className="mb-2 flex min-h-[2.25rem] items-center justify-center font-display text-xs font-bold leading-tight text-center line-clamp-2 sm:text-sm transition-colors duration-300 group-hover:text-fox-gold">
+        <h3 className="font-display font-bold text-sm sm:text-base text-center leading-tight mb-3 transition-colors duration-300 group-hover:text-fox-gold">
           {name}
         </h3>
 
         {/* TOP UP button */}
-        <button className="mt-auto w-full rounded-lg bg-gradient-to-r from-fox-primary to-fox-accent py-2 text-xs font-bold text-black uppercase tracking-wider transition-all duration-300 group-hover:shadow-lg group-hover:shadow-fox-primary/40 group-hover:scale-[1.03] active:scale-[0.97]">
+        <button className="w-full rounded-xl bg-gradient-to-r from-fox-primary to-fox-accent py-2.5 text-sm font-bold text-black uppercase tracking-wider transition-all duration-300 group-hover:shadow-lg group-hover:shadow-fox-primary/40 group-hover:scale-[1.03] active:scale-[0.97]">
           Top Up
         </button>
       </div>

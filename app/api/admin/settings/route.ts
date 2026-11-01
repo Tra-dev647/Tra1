@@ -1,3 +1,4 @@
+import { adminGuard } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
@@ -18,6 +19,9 @@ const settingsSchema = z.object({
 });
 
 export async function GET() {
+  const denied = await adminGuard();
+  if (denied) return denied;
+
   const settings = await prisma.settings.upsert({
     where: { id: 1 },
     update: {},
@@ -27,6 +31,9 @@ export async function GET() {
 }
 
 export async function PATCH(req: NextRequest) {
+  const denied = await adminGuard();
+  if (denied) return denied;
+
   const body = await req.json().catch(() => ({}));
   const parsed = settingsSchema.safeParse(body);
   if (!parsed.success) {

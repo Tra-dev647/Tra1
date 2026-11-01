@@ -58,18 +58,18 @@ function renderPdf(order: {
     doc.rect(0, headerH, pageW, 6).fill(BRAND.primary);
 
     // Brand lockup
-    doc.fillColor(BRAND.primary).font("Helvetica-Bold").fontSize(26).text("Layzz", marginX, 44);
-    const brandW = doc.widthOfString("Layzz");
+    doc.fillColor(BRAND.primary).font("Helvetica-Bold").fontSize(26).text("TRA", marginX, 44);
+    const brandW = doc.widthOfString("TRA");
     doc
       .fillColor("#ffffff")
       .fontSize(26)
-      .text("Store", marginX + brandW + 2, 44);
+      .text("TOPUP", marginX + brandW + 2, 44);
     doc
       .fillColor("#cbd5e1")
       .font("Helvetica")
       .fontSize(9)
       .text("Instant game top-up · Cambodia", marginX, 76);
-    doc.fillColor("#94a3b8").fontSize(8).text("support: @Tradev14 on Telegram", marginX, 90);
+    doc.fillColor("#94a3b8").fontSize(8).text("support: @rithtopup on Telegram", marginX, 90);
 
     // INVOICE title right
     doc
@@ -310,7 +310,7 @@ function renderPdf(order: {
       .fillColor(BRAND.primary)
       .font("Helvetica-Bold")
       .fontSize(9)
-      .text("Telegram: @Tradev14", marginX, footerY + 78);
+      .text("Telegram: @rithtopup", marginX, footerY + 78);
     doc
       .fillColor("#94a3b8")
       .font("Helvetica")

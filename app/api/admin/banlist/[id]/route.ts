@@ -1,3 +1,4 @@
+import { adminGuard } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
@@ -8,6 +9,9 @@ export async function DELETE(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const denied = await adminGuard();
+  if (denied) return denied;
+
   await prisma.blockedIdentity.delete({ where: { id: (await params).id } });
   await writeAudit({ action: "banlist.remove", targetType: "banlist", targetId: (await params).id });
   return NextResponse.json({ ok: true });

@@ -306,7 +306,7 @@ function OrderPageInner() {
 
             {order.status === "FAILED" && (
               <div className="mx-5 sm:mx-6 mb-5 sm:mb-6 rounded-lg border border-red-500/40 bg-red-500/10 p-4 text-sm text-red-300">
-                Something went wrong. Please contact <strong>@Tradev14</strong> on Telegram with your order number.
+                Something went wrong. Please contact <strong>@rithtopup</strong> on Telegram with your order number.
               </div>
             )}
 
@@ -317,7 +317,7 @@ function OrderPageInner() {
                   Your credits have been delivered! Check your in-game account.
                 </div>
                 <a
-                  href={`https://t.me/share/url?url=${encodeURIComponent(typeof window !== "undefined" ? window.location.href : "")}&text=${encodeURIComponent(`⚡ Just topped up ${order.productName} for ${order.gameName} on LayzzStore! Fast & easy 🔥`)}`}
+                  href={`https://t.me/share/url?url=${encodeURIComponent(typeof window !== "undefined" ? window.location.href : "")}&text=${encodeURIComponent(`⚡ Just topped up ${order.productName} for ${order.gameName} on TRATOPUP! Fast & easy 🔥`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 w-full rounded-xl border border-[#229ED9]/40 bg-[#229ED9]/10 hover:bg-[#229ED9]/20 text-[#229ED9] py-3 text-sm font-medium transition-colors"

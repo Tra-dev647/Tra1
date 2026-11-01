@@ -1,9 +1,21 @@
+// Best-effort client IP. On Vercel, x-real-ip / x-vercel-forwarded-for are set
+// by the platform and cannot be spoofed; x-forwarded-for is only a fallback.
+export function getClientIp(headers: Headers): string {
+  return (
+    headers.get("x-real-ip") ||
+    headers.get("x-vercel-forwarded-for")?.split(",")[0]?.trim() ||
+    headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    "unknown"
+  );
+}
+
 // Generate human-friendly order number: RT-XXXXXX
 export function generateOrderNumber(): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  const bytes = globalThis.crypto.getRandomValues(new Uint8Array(6));
   let n = "";
   for (let i = 0; i < 6; i++) {
-    n += chars[Math.floor(Math.random() * chars.length)];
+    n += chars[bytes[i] % chars.length]; // 32 chars -> no modulo bias
   }
   return `RT-${n}`;
 }

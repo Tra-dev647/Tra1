@@ -20,8 +20,11 @@ async function main() {
   });
 
   // --- Admin user ---
-  const adminEmail = process.env.ADMIN_EMAIL || "admin@rithtopup.com";
-  const adminPassword = process.env.ADMIN_PASSWORD || "ChangeMeNow123!";
+  const adminEmail = process.env.ADMIN_EMAIL;
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  if (!adminEmail || !adminPassword || adminPassword.length < 12) {
+    throw new Error("Set ADMIN_EMAIL and ADMIN_PASSWORD (min 12 chars) before seeding");
+  }
   const passwordHash = await bcrypt.hash(adminPassword, 10);
   await prisma.admin.upsert({
     where: { email: adminEmail },
@@ -33,7 +36,7 @@ async function main() {
       role: "SUPERADMIN",
     },
   });
-  console.log(`✅ Admin created: ${adminEmail} / ${adminPassword}`);
+  console.log(`✅ Admin ready: ${adminEmail}`);
 
   // --- Games ---
   const games = [
@@ -48,7 +51,7 @@ async function main() {
       uidLabel: "User ID (Zone ID)",
       uidExample: "12345678",
       featured: true,
-      sortOrder: 1,
+      sortOrder: 2,
       products: [
         { name: "11 Diamonds", amount: 11, priceUsd: 0.25 },
         { name: "payadmin", amount: 0, priceUsd: 0.01, badge: "Admin" },
@@ -76,13 +79,12 @@ async function main() {
       name: "Garena Free Fire",
       publisher: "Garena",
       description: "Top up Diamonds for Free Fire MAX and Free Fire",
-      imageUrl: "https://cdn.rithtopup.com/games/freefire.jpg",
-      bannerUrl: "https://cdn.rithtopup.com/banners/freefire.jpg",
+      imageUrl: "/games/diamond.png", // placeholder — upload the real image in Admin → Games
       currencyName: "Diamonds",
       uidLabel: "Player ID",
       uidExample: "1234567890",
       featured: true,
-      sortOrder: 2,
+      sortOrder: 1,
       products: [
         { name: "100 Diamonds", amount: 100, priceUsd: 0.99 },
         { name: "210 Diamonds", amount: 210, priceUsd: 1.98 },
@@ -92,6 +94,22 @@ async function main() {
         { name: "5600 Diamonds", amount: 5600, priceUsd: 49.50 },
         { name: "Weekly Membership", amount: 0, priceUsd: 1.50, badge: "Pass" },
         { name: "Monthly Membership", amount: 0, priceUsd: 7.90, badge: "Pass" },
+      ],
+    },
+    {
+      slug: "level-up-pass",
+      name: "Free Fire Level Up Pass",
+      publisher: "Garena",
+      description: "Free Fire Level Up Pass — top up with your Free Fire Player ID",
+      imageUrl: "/games/diamond.png", // placeholder — upload the real image in Admin → Games
+      currencyName: "Pass",
+      uidLabel: "Player ID",
+      uidExample: "1234567890",
+      featured: true,
+      sortOrder: 3,
+      products: [
+        // SAMPLE price — set the real one in Admin → Products
+        { name: "Level Up Pass", amount: 0, priceUsd: 1.99, badge: "Pass" },
       ],
     },
     {
@@ -176,31 +194,31 @@ async function main() {
     },
   ];
 
-  const selectedGames = games.filter((g) => g.slug === "mobile-legends");
+  // Which games to seed. Override with SEED_GAMES="mobile-legends,free-fire".
+  const wanted = (process.env.SEED_GAMES || "free-fire,mobile-legends,level-up-pass").split(",").map((s) => s.trim());
+  const selectedGames = games.filter((g) => wanted.includes(g.slug));
   for (const g of selectedGames) {
     const { products, ...gameData } = g;
+    // update: {} → never overwrite edits made later in the admin panel.
     const game = await prisma.game.upsert({
       where: { slug: gameData.slug },
-      update: gameData,
+      update: {},
       create: gameData,
     });
 
-    // Clear old products for this game and recreate to keep seed idempotent
-    await prisma.product.deleteMany({ where: { gameId: game.id } });
-    for (let i = 0; i < products.length; i++) {
-      const p = products[i];
-      await prisma.product.create({
-        data: {
-          ...p,
-          gameId: game.id,
-          sortOrder: i,
-        },
-      });
+    // Only create products if the game has none yet. (The old seed deleted and recreated them,
+    // which wiped admin price edits and fails once orders reference the products.)
+    const existing = await prisma.product.count({ where: { gameId: game.id } });
+    if (existing === 0) {
+      for (let i = 0; i < products.length; i++) {
+        await prisma.product.create({ data: { ...products[i], gameId: game.id, sortOrder: i } });
+      }
+      console.log(`✅ ${game.name}: created ${products.length} products (SAMPLE PRICES — edit in Admin → Products)`);
+    } else {
+      console.log(`⏭️  ${game.name}: already has ${existing} products, left untouched`);
     }
-    console.log(`✅ ${game.name} with ${products.length} products`);
   }
 
-  await prisma.game.updateMany({ where: { slug: { not: "mobile-legends" } }, data: { active: false } });
   console.log("\n🎉 Seed complete!");
 }
 

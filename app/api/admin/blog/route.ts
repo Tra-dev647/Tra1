@@ -1,3 +1,4 @@
+import { adminGuard } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
@@ -16,6 +17,9 @@ const schema = z.object({
 });
 
 export async function GET() {
+  const denied = await adminGuard();
+  if (denied) return denied;
+
   const posts = await prisma.blogPost.findMany({
     orderBy: { createdAt: "desc" },
     select: {
@@ -35,6 +39,9 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+  const denied = await adminGuard();
+  if (denied) return denied;
+
   const body = await req.json().catch(() => ({}));
   const parsed = schema.safeParse(body);
   if (!parsed.success) {

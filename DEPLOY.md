@@ -1,87 +1,65 @@
-# TRATOPUP — Deploy to Vercel + Neon (Free, ~10 min)
+# TRATOPUP — Deploy to Vercel + Neon
 
-## Step 1 — Create Neon database (2 min)
+## 1. Neon database
+Create a project at https://neon.tech (region: Singapore) and copy the connection string.
 
-1. Go to https://neon.tech → **Sign up** (GitHub login fastest)
-2. Create Project → name it `tratopup` → pick region **Singapore** (closest to KH)
-3. Copy the **connection string** — looks like:
-   ```
-   postgresql://neondb_owner:xxxxx@ep-xxx.ap-southeast-1.aws.neon.tech/neondb?sslmode=require
-   ```
-   **SAVE THIS** — you need it twice.
-
-## Step 2 — Push code to GitHub (3 min)
-
-In your project folder:
-```powershell
-git init
-git add .
-git commit -m "Initial commit"
+## 2. Push to GitHub
+```bash
+git add -A && git commit -m "update" && git push
 ```
 
-Then on https://github.com/new create a new **private** repo called `tratopup` → copy the commands GitHub shows → paste in terminal. Usually:
-```powershell
-git remote add origin https://github.com/YOUR_USERNAME/tratopup.git
-git branch -M main
-git push -u origin main
+## 3. Install new packages (once, regenerates package-lock.json)
+```bash
+npm install @vercel/blob qrcode
+npm install -D @types/qrcode
 ```
+Commit `package.json` and `package-lock.json`. Vercel's `npm ci` fails if the lockfile is out of sync.
 
-## Step 3 — Seed your Neon DB locally (1 min)
-
-Create a **temporary** `.env` file in the project:
+## 4. Create the database tables and admin (run locally / Termux)
+Create a temporary `.env` (never commit it):
 ```
-DATABASE_URL="<paste your Neon connection string here>"
-JWT_SECRET="any-long-random-string-min-32-chars-hereeeeee"
-ADMIN_EMAIL="admin@tratopup.com"
-ADMIN_PASSWORD="ChangeMeNow123!"
-PAYMENT_SIMULATION_MODE="true"
-NEXT_PUBLIC_BASE_URL="http://localhost:3000"
+DATABASE_URL="<neon connection string>"
+JWT_SECRET="<random, 32+ chars>"
+ADMIN_EMAIL="you@example.com"
+ADMIN_PASSWORD="<12+ chars, strong>"
 ```
-
-Then run:
-```powershell
+```bash
 npx prisma db push
 npm run db:seed
 ```
 
-This creates all tables in Neon and loads your games + admin user.
+## 5. Vercel project → Environment Variables
+| Name | Notes |
+|---|---|
+| `DATABASE_URL` | Neon string |
+| `JWT_SECRET` | same random 32+ char secret |
+| `BAKONG_API_TOKEN`, `BAKONG_ACCOUNT_ID`, `BAKONG_MERCHANT_NAME`, `MERCHANT_CITY` | Bakong KHQR |
+| `KHMER_TOPUP_API_KEY` (+ optional `KHMER_TOPUP_API_URL`) | reseller API |
+| `PAYMENT_SIMULATION_MODE` | **`false` in production** (`true` lets anyone mark orders as paid) |
+| `NEXT_PUBLIC_BASE_URL` | your live URL |
+| `BLOB_READ_WRITE_TOKEN` | Vercel → Storage → Create Blob store → connect to project |
+| `TELEGRAM_SHOP_BOT_TOKEN`, `TELEGRAM_WEBHOOK_SECRET` | Telegram shop bot (see below) |
+| `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | free Redis at https://upstash.com (shared rate limiting) |
 
-## Step 4 — Deploy to Vercel (3 min)
+`ADMIN_EMAIL` / `ADMIN_PASSWORD` are only needed for seeding; they don't have to be set on Vercel.
 
-1. Go to https://vercel.com → **Sign up with GitHub**
-2. Click **Add New… → Project** → Import your `tratopup` repo
-3. **Framework Preset**: Next.js (auto-detected)
-4. Expand **Environment Variables** → add ALL of these:
+## 6. Deploy
+Push to GitHub; Vercel builds automatically. Admin login: `/admin/login`.
 
-   | Name | Value |
-   |---|---|
-   | `DATABASE_URL` | your Neon connection string |
-   | `JWT_SECRET` | same 32-char random string from Step 3 |
-   | `ADMIN_EMAIL` | `admin@tratopup.com` |
-   | `ADMIN_PASSWORD` | your admin password |
-   | `PAYMENT_SIMULATION_MODE` | `true` |
-   | `NEXT_PUBLIC_BASE_URL` | **leave blank for now**, update after deploy |
-   | `KHPAY_BASE_URL` | `https://khpay.site/api/v1` |
-   | `KHPAY_API_KEY` | (blank — sim mode is on) |
-   | `KHPAY_WEBHOOK_SECRET` | (blank) |
+## Telegram shop bot
+1. Create a bot with @BotFather → copy the token → set `TELEGRAM_SHOP_BOT_TOKEN` and a random `TELEGRAM_WEBHOOK_SECRET` (16+ chars) on Vercel, then redeploy.
+2. Create the new tables: `npx prisma db push` (adds `Order.telegramChatId` and `TelegramSession`).
+3. Register the webhook (from Termux, with the same two values in your shell):
+```bash
+export TELEGRAM_SHOP_BOT_TOKEN="..." TELEGRAM_WEBHOOK_SECRET="..."
+npm run tg:webhook -- set https://YOUR-APP.vercel.app
+npm run tg:webhook -- info     # check: url set, no last_error_message
+```
+4. Open your bot → `/start`.
+- Admin notifications (new PAID order needing manual top-up) use the *separate* bot token + chat id in Admin → Settings.
+- Banning a Telegram user: Admin → Banlist → type `ip`, value `tg:<their chat id>` (the chat id is stored in the order's IP field).
 
-5. Click **Deploy** → wait ~2 min
-
-## Step 5 — Post-deploy (30 sec)
-
-1. After deploy succeeds, copy your live URL (e.g. `https://tratopup.vercel.app`)
-2. Go to **Project Settings → Environment Variables** → set `NEXT_PUBLIC_BASE_URL` to that URL
-3. **Deployments → Redeploy** → done
-
-## ✅ You're live
-
-- Public site: `https://tratopup.vercel.app`
-- Admin: `https://tratopup.vercel.app/admin/login`
-
-## Custom domain (optional, later)
-
-Project Settings → **Domains** → add your domain → Vercel gives you DNS records to paste at your registrar. Takes 5-30 min to propagate.
-
-## When you're ready for real payments
-
-Set `PAYMENT_SIMULATION_MODE=false` and fill in `KHPAY_API_KEY` + `KHPAY_WEBHOOK_SECRET` from your KHPay merchant dashboard → redeploy.
+## Security checklist
+- All `/api/admin/*` routes require the admin session cookie (middleware + `adminGuard()` in each handler). New admin routes MUST call `adminGuard()`.
+- Rotate any token that was ever exposed (Telegram bot token, Bakong token, reseller key).
+- Never commit `.env*`.

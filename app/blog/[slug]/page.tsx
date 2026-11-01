@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await prisma.blogPost.findUnique({ where: { slug: (await params).slug } });
   if (!post || !post.published) return { title: "Not found" };
   return {
-    title: `${post.title} — LayzzStore`,
+    title: `${post.title} — TRATOPUP`,
     description: post.excerpt ?? undefined,
     openGraph: {
       title: post.title,

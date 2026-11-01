@@ -1,3 +1,4 @@
+import { adminGuard } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { writeAudit } from "@/lib/audit";
 import { checkBakongPayment } from "@/lib/payment";
@@ -5,6 +6,9 @@ import { NextRequest, NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
 export async function POST(_req: NextRequest, { params }: { params: Promise<{ orderNumber: string }> }) {
+  const denied = await adminGuard();
+  if (denied) return denied;
+
   const order = await prisma.order.findUnique({ where: { orderNumber: (await params).orderNumber.toUpperCase() } });
   if (!order) return NextResponse.json({ error: "Not found" }, { status: 404 });
   if (!order.paymentRef || order.status !== "PENDING") return NextResponse.json({ error: "No pending Bakong payment" }, { status: 400 });

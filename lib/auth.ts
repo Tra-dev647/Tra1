@@ -1,9 +1,10 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "./prisma";
 
-const SESSION_COOKIE = "rithtopup_admin";
+const SESSION_COOKIE = "tratopup_admin";
 const SESSION_TTL = 60 * 60 * 24 * 7; // 7 days
 
 function getSecret() {
@@ -65,6 +66,14 @@ export async function requireAdmin(): Promise<AdminSession> {
   const admin = await getCurrentAdmin();
   if (!admin) throw new Error("UNAUTHORIZED");
   return admin;
+}
+
+// Use at the top of every /api/admin handler:
+//   const denied = await adminGuard(); if (denied) return denied;
+export async function adminGuard(): Promise<NextResponse | null> {
+  const admin = await getCurrentAdmin();
+  if (!admin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  return null;
 }
 
 export async function verifyAdminCredentials(email: string, password: string) {

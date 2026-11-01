@@ -1,9 +1,11 @@
+import { adminGuard } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 import crypto from "crypto";
+import { put } from "@vercel/blob";
 
 export const runtime = "nodejs";
 
@@ -16,10 +18,12 @@ const ALLOWED: Record<string, string> = {
   "image/jpeg": "jpg",
   "image/webp": "webp",
   "image/gif": "gif",
-  "image/svg+xml": "svg",
 };
 
 export async function POST(req: NextRequest) {
+  const denied = await adminGuard();
+  if (denied) return denied;
+
   try {
     const form = await req.formData();
     const file = form.get("file");
@@ -42,7 +46,7 @@ export async function POST(req: NextRequest) {
     const ext = ALLOWED[file.type];
     if (!ext) {
       return NextResponse.json(
-        { error: `Unsupported type "${file.type}". Use PNG, JPG, WEBP, GIF, or SVG.` },
+        { error: `Unsupported type "${file.type}". Use PNG, JPG, WEBP, or GIF.` },
         { status: 415 }
       );
     }
@@ -50,10 +54,27 @@ export async function POST(req: NextRequest) {
     // Generate a safe random filename — ignore the client-supplied name
     // entirely to prevent path traversal and collisions.
     const name = `${Date.now()}-${crypto.randomBytes(8).toString("hex")}.${ext}`;
+    const buffer = Buffer.from(await file.arrayBuffer());
+
+    // Production (Vercel): the filesystem is read-only/ephemeral, so store in Vercel Blob.
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      const blob = await put(`uploads/${name}`, buffer, {
+        access: "public",
+        contentType: file.type,
+        addRandomSuffix: false,
+      });
+      return NextResponse.json({ url: blob.url, size: file.size, type: file.type });
+    }
+
+    // Local dev fallback: write to public/uploads.
+    if (process.env.VERCEL) {
+      return NextResponse.json(
+        { error: "BLOB_READ_WRITE_TOKEN is not configured (create a Vercel Blob store)" },
+        { status: 500 }
+      );
+    }
     const uploadsDir = path.join(process.cwd(), "public", "uploads");
     await mkdir(uploadsDir, { recursive: true });
-
-    const buffer = Buffer.from(await file.arrayBuffer());
     await writeFile(path.join(uploadsDir, name), buffer);
 
     return NextResponse.json({

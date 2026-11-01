@@ -150,6 +150,7 @@ export async function lookupNickname(
   switch (gameSlug) {
     case "mobile-legends":
       return server ? lookupMobileLegends(uid, server) : null;
+    case "level-up-pass":
     case "free-fire":
       return lookupFreeFire(uid);
     case "free-fire-bonus":
